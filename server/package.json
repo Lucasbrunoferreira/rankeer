@@ -1,0 +1,42 @@
+{
+  "name": "rankeer.backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ace build",
+    "start": "node ace serve --watch",
+    "lint": "eslint . --ext=.ts",
+    "test": "node ace build && node build/japaFile.js",
+    "migration:up": "node ace build && node ace migration:run",
+    "migration:down": "node ace build && node ace migration:rollback"
+  },
+  "devDependencies": {
+    "@adonisjs/assembler": "^2.1.3",
+    "@types/jsdom": "^16.2.3",
+    "@types/supertest": "^2.0.10",
+    "adonis-preset-ts": "^1.0.4",
+    "eslint": "^7.5.0",
+    "eslint-plugin-adonis": "^1.0.14",
+    "execa": "^4.0.3",
+    "get-port": "^5.1.1",
+    "japa": "^3.1.1",
+    "pino-pretty": "^4.1.0",
+    "supertest": "^4.0.2",
+    "typescript": "^3.9.7",
+    "youch": "^2.0.10",
+    "youch-terminal": "^1.0.0"
+  },
+  "dependencies": {
+    "@adonisjs/ace": "^6.9.3",
+    "@adonisjs/auth": "^4.3.1",
+    "@adonisjs/core": "^5.0.0-preview-rc-1.9",
+    "@adonisjs/fold": "^6.3.5",
+    "@adonisjs/lucid": "^8.2.2",
+    "mkdirp": "^1.0.4",
+    "pg": "^8.3.0",
+    "proxy-addr": "^2.0.6",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.19",
+    "sqlite3": "^5.0.0"
+  }
+}
