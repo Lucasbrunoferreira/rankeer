@@ -5,8 +5,8 @@
 # Rankeer
 
 [![](https://img.shields.io/badge/author-Lucas%20Bruno-blue)](https://github.com/Lucasbrunoferreira)
-![WEB - Pipeline](https://github.com/Lucasbrunoferreira/rankeer/workflows/WEB/badge.svg)
-![SERVER - Pipeline](https://github.com/Lucasbrunoferreira/rankeer/workflows/SERVER/badge.svg)
+![WEB - Pipeline](https://github.com/Lucasbrunoferreira/rankeer/workflows/WEB/badge.svg?branch=master)
+![SERVER - Pipeline](https://github.com/Lucasbrunoferreira/rankeer/workflows/SERVER/badge.svg?branch=master)
 
 > 🇧🇷
 > Trabalho de conclusão de Curso - Sistemas de Informação - [UNIPAM](https://unipam.edu.br/)
