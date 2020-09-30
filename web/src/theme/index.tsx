@@ -6,16 +6,22 @@ export const theme = {
     primary: '#235AAA',
     secundary: '#3498DB',
     tertiary: '#2F2E41',
-    background: '#191920',
+
+    background: {
+      primary: '#010105',
+      darker: '#050511',
+    },
 
     text: {
       primary: '#FCFCFC'
     }
   },
   fontSizes: {
-    small: '1em',
-    medium: '2em',
-    large: '3em',
+    small: '0.8rem',
+    regular: '1rem',
+    medium: '1.2rem',
+    large: '1.5rem',
+    big: '1.8rem'
   },
 };
 
