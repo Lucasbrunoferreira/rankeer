@@ -1,4 +1,4 @@
-name: SecurityPipeline
+name: Horusec - Security
 
 on: [push]
 
