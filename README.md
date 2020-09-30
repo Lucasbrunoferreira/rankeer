@@ -7,7 +7,7 @@
 [![](https://img.shields.io/badge/author-Lucas%20Bruno-blue)](https://github.com/Lucasbrunoferreira)
 ![WEB - Pipeline](https://github.com/Lucasbrunoferreira/rankeer/workflows/WEB/badge.svg?branch=master)
 ![SERVER - Pipeline](https://github.com/Lucasbrunoferreira/rankeer/workflows/SERVER/badge.svg?branch=master)
-![Horusec - Security](https://github.com/Lucasbrunoferreira/rankeer/workflows/SecurityPipeline/badge.svg?branch=master)
+![Horusec - Security](https://github.com/Lucasbrunoferreira/rankeer/workflows/Horusec%20-%20Security/badge.svg?branch=master)
 
 > 🇧🇷
 > Trabalho de conclusão de Curso - Sistemas de Informação - [UNIPAM](https://unipam.edu.br/)
