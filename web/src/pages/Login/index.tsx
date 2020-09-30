@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
       </Styles.LeftContainer>
 
       <Styles.RightContainer>
-      <Styles.Welcome>Seja Bem-vindo!</Styles.Welcome>
+        <Styles.Welcome>Seja Bem-vindo!</Styles.Welcome>
       </Styles.RightContainer>
     </Styles.Background>
   );
