@@ -13,6 +13,16 @@ export const theme = {
     },
 
     text: {
+      inDark: '#FCFCFC',
+      inLight: '#050511'
+    },
+
+    icon: {
+      inDark: '#FFF',
+      inLight: '#000'
+    },
+
+    input: {
       primary: '#FCFCFC'
     }
   },
