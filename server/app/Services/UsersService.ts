@@ -12,4 +12,8 @@ export default class UsersService {
   public async getOneById (userId: number): Promise<User> {
     return await User.findOrFail(userId)
   }
+
+  public async getOneByEmail (email: string): Promise<User> {
+    return await User.findByOrFail('email', email)
+  }
 }
