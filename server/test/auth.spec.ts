@@ -23,6 +23,8 @@ test.group('Auth', () => {
 
     process.env.TOKEN = response.body.token
 
-    assert.equal(response.body.type, 'bearer')
+    console.log(response.body)
+
+    assert.equal(response.body.user.email, userMock.email)
   })
 })
