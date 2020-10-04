@@ -4,17 +4,20 @@ import Logo from 'assets/images/logo_white.svg'
 import { useTheme } from 'styled-components';
 import { validateEmail } from 'helpers/validators/email';
 import authService from 'services/auth';
+import { setCurrentUser } from 'helpers/localStorage/currentUser';
+import { setToken } from 'helpers/localStorage/token';
+import { useHistory } from 'react-router-dom';
+import useFlashMessage from 'hooks/useFlashMessage'
 
 import { ReactComponent as UserIcon } from 'assets/svg/user.svg'
 import { ReactComponent as PassIcon } from 'assets/svg/lock.svg'
 import { ReactComponent as Loading } from 'assets/svg/loading.svg'
-import { setCurrentUser } from 'helpers/localStorage/currentUser';
-import { setToken } from 'helpers/localStorage/token';
-import { useHistory } from 'react-router-dom';
+
 
 const LoginPage: React.FC = () => {
   const { colors } = useTheme();
   const history = useHistory();
+  const { setMessage } = useFlashMessage();
 
   const [email, setEmail] = useState({ value: '', isValid: true });
   const [password, setPassword] = useState({ value: '', isValid: true });
@@ -40,7 +43,7 @@ const LoginPage: React.FC = () => {
           history.replace('/home')
         })
         .catch((err) => {
-          console.log(err)
+          setMessage('Verifique seu e-mail e senha.')
           setLoading(false)
         })
     }
