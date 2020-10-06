@@ -12,9 +12,12 @@ export const theme = {
     warning: '#f39c12',
 
     background: {
-      primary: '#0C0C1F',
-      darker: '#040418',
+      primary: '#202225',
+      secundary: '#27292c',
+      highlight: '#343a40'
     },
+
+    footer: '#343a40',
 
     text: {
       inDark: '#FCFCFC',

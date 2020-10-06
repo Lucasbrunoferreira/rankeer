@@ -17,7 +17,7 @@ const Background = styled.div`
     content: '';
     width: 15px;
     height: 100vh;
-    background-color: ${props => props.theme.colors.background.darker};
+    background-color: ${props => props.theme.colors.background.secundary};
   }
 `;
 
@@ -36,7 +36,7 @@ const LeftContainer = styled(Container)`
 `;
 
 const RightContainer = styled(Container)`
-  background-color: ${props => props.theme.colors.background.darker};
+  background-color: ${props => props.theme.colors.background.secundary};
   width: 70%;
 `;
 

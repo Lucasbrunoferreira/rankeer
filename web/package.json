@@ -18,6 +18,7 @@
     "react-scripts": "3.4.3",
     "styled-components": "^5.2.0",
     "styled-reset": "^4.2.3",
+    "styled-tools": "^1.7.2",
     "typescript": "^3.7.5"
   },
   "scripts": {
