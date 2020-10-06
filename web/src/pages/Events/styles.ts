@@ -6,18 +6,12 @@ interface EventItem {
 }
 
 const Container = styled.div`
-  padding: 0px 10%;
-`;
-
-const Logo = styled.img`
   display: block;
-  padding-top: 50px;
 `;
 
 const Title = styled.h1`
   color: ${props => props.theme.colors.text.inDark};
   font-size: ${props => props.theme.fontSizes.big};
-  margin-top: 80px;
 `;
 
 const EventsList = styled.ul`
@@ -85,7 +79,6 @@ const Status = styled.div<EventItem>`
 
 export default {
   Container,
-  Logo,
   Title,
   EventsList,
   EventItem,

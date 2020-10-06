@@ -1,14 +1,12 @@
 import React from 'react';
 import Styles from './styles';
-import Logo from 'assets/images/logo_white.svg'
+
 import InternLayout from 'layouts/Internal';
 
 const EventsPage: React.FC = () => {
   return (
-    <InternLayout>
+    <InternLayout hiddenSideMenu>
       <Styles.Container>
-        <Styles.Logo src={Logo} />
-
         <Styles.Title>Meus Eventos</Styles.Title>
 
         <Styles.EventsList>

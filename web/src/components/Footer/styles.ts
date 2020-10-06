@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { prop } from "styled-tools";
 
 const Footer = styled.footer`
-  background-color: ${prop('theme.colors.footer')};
+  background-color: ${prop('theme.colors.background.highlight')};
 
   width: 100%;
   padding: 8px 0px;

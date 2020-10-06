@@ -13,12 +13,14 @@ const InternalLayout: React.FC<Props> = ({ children, hiddenSideMenu, hiddenHeade
     <Styles.Wrapper>
       {hiddenHeader || <Header />}
 
-      <Styles.Content>
-        {hiddenHeader || <SideMenu />}
+      <Styles.Container>
+        {hiddenSideMenu || <SideMenu />}
 
-        {children}
+        <Styles.Content>
+          {children}
+        </Styles.Content>
 
-      </Styles.Content>
+      </Styles.Container>
 
       {hiddenFooter || <Footer />}
     </Styles.Wrapper>

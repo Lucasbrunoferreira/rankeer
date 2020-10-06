@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { PrivateRoute } from 'components';
 
 import Home from 'pages/Home';
@@ -9,7 +9,7 @@ const InternalRoutes = () => (
   <Switch>
     <PrivateRoute exact path="/home" component={Home} />
 
-    <Route exact path="/events" component={Events} />
+    <PrivateRoute exact path="/events" component={Events} />
   </Switch>
 );
 

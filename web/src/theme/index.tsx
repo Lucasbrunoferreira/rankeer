@@ -5,7 +5,6 @@ export const theme = {
   colors: {
     primary: '#235AAA',
     secundary: '#3498DB',
-    tertiary: '#2F2E41',
 
     danger: '#e74c3c',
     positive: '#27AE60',
@@ -16,8 +15,6 @@ export const theme = {
       secundary: '#27292c',
       highlight: '#343a40'
     },
-
-    footer: '#343a40',
 
     text: {
       inDark: '#FCFCFC',
