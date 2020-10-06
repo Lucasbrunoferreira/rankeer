@@ -8,10 +8,12 @@ export const theme = {
     tertiary: '#2F2E41',
 
     danger: '#e74c3c',
+    positive: '#27AE60',
+    warning: '#f39c12',
 
     background: {
-      primary: '#010105',
-      darker: '#050511',
+      primary: '#0C0C1F',
+      darker: '#040418',
     },
 
     text: {

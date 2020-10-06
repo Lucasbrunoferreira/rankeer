@@ -29,14 +29,14 @@ const Container = styled.div`
 `;
 
 const LeftContainer = styled(Container)`
-  background-color: ${props => props.theme.colors.background.darker};
+  background-color: ${props => props.theme.colors.background.primary};
   justify-content: space-evenly;
   padding: 10% 5%;
   width: 30%;
 `;
 
 const RightContainer = styled(Container)`
-  background-color: ${props => props.theme.colors.background.primary};
+  background-color: ${props => props.theme.colors.background.darker};
   width: 70%;
 `;
 
@@ -78,7 +78,7 @@ const Input = styled.input`
 const InputWrapper = styled.div<InputProps>`
   display: flex;
   align-items: center;
-  background-color: ${props => props.theme.colors.background.darker};
+  background-color: ${props => props.theme.colors.background.primary};
   margin: 10px 0;
   padding: 5px 10px;
   border-radius: 5px;

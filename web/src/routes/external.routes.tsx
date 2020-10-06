@@ -1,19 +1,16 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
 import Login from 'pages/Login';
-import NotFound from 'pages/NotFound';
+import { getToken } from 'helpers/localStorage/token';
 
-const ExternalRoutes = () => (
-  <Switch>
-    <Route exact path="/login" component={Login} />
+const ExternalRoutes = () => {
+  return (
+    <Switch>
+      <Route exact path="/login" component={Login} />
 
-    <Route exact from="/not-found" component={NotFound} />
-
-    <Redirect exact from="/" to='/login' />
-
-    <Redirect from="*" to='/not-found' />
-  </Switch>
-);
+      <Redirect exact from="/" to={getToken() ? '/home' : '/login' } />
+    </Switch>
+  )
+};
 
 export default ExternalRoutes;
