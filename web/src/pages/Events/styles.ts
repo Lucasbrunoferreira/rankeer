@@ -1,8 +1,10 @@
-import styled from "styled-components";
-import { switchProp, prop } from "styled-tools";
+import styled, { css } from 'styled-components';
+import { switchProp, prop, ifProp } from 'styled-tools';
+import { EventStatus } from 'helpers/enums/EventStatus';
 
 interface EventItem {
-  status: 'inProgress' | 'comingSoon' | 'closed'
+  status: EventStatus;
+  isActive?: boolean;
 }
 
 const Container = styled.div`
@@ -17,7 +19,19 @@ const Title = styled.h1`
 const EventsList = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  margin-top: 25px;
+  height: 340px;
+  width: 100%;
+  overflow-y: scroll;
+  padding: 5px;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.background.highlight};
+    border-radius: 4px;
+  }
 `;
 
 const EventItem = styled.li<EventItem>`
@@ -27,19 +41,20 @@ const EventItem = styled.li<EventItem>`
   position: relative;
   transition: all 1s;
   margin: 25px 40px 0px 0px;
+  max-height: 70px;
 
   :hover {
     ${switchProp("status", {
-      inProgress: 'cursor: pointer; transform: scale(1.04);',
-      comingSoon: null,
-      closed: null
+      1: 'cursor: pointer; transform: scale(1.04);',
+      2: null,
+      3: null
     })};
   }
 
   opacity: ${switchProp("status", {
-    inProgress: 1,
-    comingSoon: 0.35,
-    closed: 0.35
+    1: 1,
+    2: 0.35,
+    3: 0.35
   })};
 `;
 
@@ -71,10 +86,62 @@ const Status = styled.div<EventItem>`
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   background-color: ${switchProp("status", {
-    inProgress: prop('theme.colors.positive'),
-    comingSoon: prop('theme.colors.warning'),
-    closed: prop('theme.colors.danger')
+    1: prop('theme.colors.positive'),
+    2: prop('theme.colors.warning'),
+    3: prop('theme.colors.danger')
   })};
+`;
+
+const Filter = styled.ul`
+  display: flex;
+  margin: 45px 0 5px 0;
+`;
+
+const FilterItem = styled.li<EventItem>`
+  cursor: pointer;
+  margin-right: 30px;
+  font-size: ${props => props.theme.fontSizes.small};
+  color: ${props => props.theme.colors.text.inDark};
+  display: flex;
+  opacity: 0.3;
+
+   ${ifProp("isActive", css`
+    opacity: 1;
+  `)}
+
+  ::before {
+    content: '';
+    display: block;
+    margin-right: 3px;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: ${switchProp("status", {
+      1: prop('theme.colors.positive'),
+      2: prop('theme.colors.warning'),
+      3: prop('theme.colors.danger')
+    })};
+  }
+`;
+
+const Wrapper = styled.div`
+  margin-top: 70px;
+`;
+
+const SubTitle = styled(Text)`
+  font-size: ${props => props.theme.fontSizes.medium};
+`;
+
+const Input = styled.input`
+  font-size: ${props => props.theme.fontSizes.regular};
+  background-color: ${props => props.theme.colors.background.secundary};
+  color: ${props => props.theme.colors.text.inDark};
+  font-family: sans-serif !important;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 20px;
+  border: none;
+  outline: none;
 `;
 
 export default {
@@ -85,4 +152,9 @@ export default {
   EventName,
   Text,
   Status,
+  Filter,
+  FilterItem,
+  Input,
+  Wrapper,
+  SubTitle,
 };
