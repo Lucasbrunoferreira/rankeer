@@ -7,7 +7,7 @@ import Events from 'pages/Events';
 
 const InternalRoutes = () => (
   <Switch>
-    <PrivateRoute exact path="/home" component={Home} />
+    <PrivateRoute exact={false} path="/home" component={Home} />
 
     <PrivateRoute exact path="/events" component={Events} />
   </Switch>

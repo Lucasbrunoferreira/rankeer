@@ -8,9 +8,12 @@ import { EventStatus } from 'helpers/enums/EventStatus';
 import { format, isSameDay, isAfter } from 'date-fns'
 import { ptBR } from 'date-fns/locale';
 import { sortBy } from 'lodash';
+import { setCurrentEvent } from 'helpers/localStorage/currentEvent';
+import { useHistory } from 'react-router-dom';
 
 const EventsPage: React.FC = () => {
   const { setMessage } = useFlashMessage();
+  const history = useHistory();
 
   const [events, setEvents] = useState<Event[]>([]);
   const [filteredEvents, setFiltered] = useState<Event[]>([]);
@@ -64,6 +67,13 @@ const EventsPage: React.FC = () => {
     }
   }
 
+  const handleSelecteEvent = (event: Event) => {
+    if (event.status === EventStatus.INPROGRESS) {
+      setCurrentEvent(event);
+      history.push('/home');
+    }
+  }
+
   return (
     <InternLayout hiddenSideMenu>
       <Styles.Container>
@@ -77,7 +87,7 @@ const EventsPage: React.FC = () => {
 
         <Styles.EventsList>
           {filteredEvents.map((event) => (
-            <Styles.EventItem key={event.id} status={event.status}>
+            <Styles.EventItem key={event.id} status={event.status} onClick={() => handleSelecteEvent(event)}>
               <Styles.EventName>{event.name}</Styles.EventName>
 
               <Styles.Text>

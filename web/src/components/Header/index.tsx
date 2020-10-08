@@ -1,6 +1,8 @@
 import React from 'react';
 import Styles from './styles';
 import { getCurrentUser, clearCurrentUser } from 'helpers/localStorage/currentUser';
+import { clearToken } from 'helpers/localStorage/token';
+import { clearCurrentEvent } from 'helpers/localStorage/currentEvent';
 import Logo from 'assets/images/logo_white.svg';
 import { useHistory } from 'react-router-dom';
 
@@ -24,6 +26,8 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     clearCurrentUser();
+    clearCurrentEvent();
+    clearToken();
     history.replace('/login');
   };
 
