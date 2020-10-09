@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from './styles';
 import { useHistory } from 'react-router-dom';
+import useProjectContext from 'hooks/useProjectContext';
 import { clearCurrentEvent, getCurrentEvent } from 'helpers/localStorage/currentEvent';
 
 import { ReactComponent as UsersIcon } from 'assets/svg/users.svg';
@@ -21,6 +22,7 @@ interface Route {
 const SideMenu: React.FC = () => {
   const history = useHistory();
   const currentEvent = getCurrentEvent();
+  const { color } = useProjectContext();
 
   const routes: Route[] = [
     {
@@ -62,14 +64,14 @@ const SideMenu: React.FC = () => {
   }
 
   useEffect(() => {
-    currentEvent.isAdmin ? setCurrentRoute(routes[1]) : setCurrentRoute(routes[0]);
+    currentEvent?.isAdmin ? setCurrentRoute(routes[1]) : setCurrentRoute(routes[0]);
     // eslint-disable-next-line
   }, [])
 
   const renderRoute = (route: Route) => {
-    if ((currentEvent.isAdmin && route.role === 'admin') || (!currentEvent.isAdmin && route.role === 'participant')) {
+    if ((currentEvent?.isAdmin && route.role === 'admin') || (!currentEvent?.isAdmin && route.role === 'participant')) {
       return (
-        <Styles.Route onClick={() => handleSelectedRoute(route)} isActive={route.name === currentRoute?.name} key={route.name}>
+        <Styles.Route onClick={() => handleSelectedRoute(route)} color={color} isActive={route.name === currentRoute?.name} key={route.name}>
           <Styles.IconWrapper>
             <route.icon width={20} />
           </Styles.IconWrapper>
@@ -87,12 +89,12 @@ const SideMenu: React.FC = () => {
       </Styles.Navigation>
 
       <Styles.Options>
-        <Styles.OptionItem>
+        <Styles.OptionItem onClick={backToEvents}>
           <Styles.IconWrapper>
             <GridIcon width={20} />
           </Styles.IconWrapper>
 
-          <Styles.Text onClick={backToEvents}>Eventos</Styles.Text>
+          <Styles.Text>Eventos</Styles.Text>
         </Styles.OptionItem>
       </Styles.Options>
     </Styles.SideMenu>

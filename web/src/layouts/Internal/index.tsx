@@ -1,6 +1,7 @@
 import React from 'react';
 import { Footer, Header, SideMenu } from 'components';
 import Styles from './styles';
+import { ProjectProvider } from 'contexts/ProjectContext';
 
 interface Props {
   hiddenSideMenu?: boolean;
@@ -11,18 +12,22 @@ interface Props {
 const InternalLayout: React.FC<Props> = ({ children, hiddenSideMenu, hiddenHeader, hiddenFooter }) => {
   return (
     <Styles.Wrapper>
-      {hiddenHeader || <Header />}
+      <ProjectProvider>
+        <>
+          {hiddenHeader || <Header />}
 
-      <Styles.Container>
-        {hiddenSideMenu || <SideMenu />}
+          <Styles.Container>
+            {hiddenSideMenu || <SideMenu />}
 
-        <Styles.Content>
-          {children}
-        </Styles.Content>
+            <Styles.Content>
+              {children}
+            </Styles.Content>
 
-      </Styles.Container>
+          </Styles.Container>
 
-      {hiddenFooter || <Footer />}
+          {hiddenFooter || <Footer />}
+        </>
+      </ProjectProvider>
     </Styles.Wrapper>
   );
 };

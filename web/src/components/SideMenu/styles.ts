@@ -1,8 +1,9 @@
-import styled, { css } from "styled-components";
-import { prop, ifProp } from "styled-tools";
+import styled from "styled-components";
+import { prop, switchProp } from "styled-tools";
 
 interface RouteProps {
   isActive: boolean;
+  color: string;
 }
 
 const SideMenu = styled.div`
@@ -30,14 +31,21 @@ const Route = styled.div<RouteProps>`
   white-space: nowrap;
   align-items: center;
   transition: all 1s ease;
+  border-style: solid;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-color: transparent;
 
-
-  ${ifProp("isActive", css`
-    background-color: ${props => props.theme.colors.background.primary};
-  `)}
+  background-color: ${switchProp("isActive", {
+    true: prop('color'),
+    false: prop('theme.colors.background.secundary'),
+  })};
 
   :hover {
-    background-color: ${prop('theme.colors.background.primary')};
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-style: solid;
+    border-color: ${prop('color')};
   }
 `;
 

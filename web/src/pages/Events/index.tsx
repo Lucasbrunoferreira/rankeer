@@ -77,7 +77,7 @@ const EventsPage: React.FC = () => {
   return (
     <InternLayout hiddenSideMenu>
       <Styles.Container>
-        <Styles.Title>Selecione um evento para prosseguir:</Styles.Title>
+        <Styles.Title>Selecione um evento para prosseguir</Styles.Title>
 
         <Styles.Filter>
           <Styles.FilterItem isActive={selectedStatus.includes(EventStatus.INPROGRESS)} onClick={() => handleFilter(EventStatus.INPROGRESS)} status={EventStatus.INPROGRESS}>Em andamento</Styles.FilterItem>

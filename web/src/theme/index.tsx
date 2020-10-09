@@ -18,6 +18,7 @@ export const theme = {
 
     text: {
       inDark: '#FCFCFC',
+      opaqueInDark: '#AAAAAA',
       inLight: '#050511'
     },
 
@@ -28,7 +29,9 @@ export const theme = {
 
     input: {
       primary: '#FCFCFC'
-    }
+    },
+
+    projectColors: ['#2980b9', '#27ae60', '#8e44ad', '#c0392b', '#a78b1d', '#d35400', '#e84393']
   },
   fontSizes: {
     small: '0.8rem',

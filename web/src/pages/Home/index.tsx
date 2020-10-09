@@ -3,6 +3,11 @@ import React, { useEffect } from 'react';
 import InternalLayout from 'layouts/Internal';
 import { Switch, Route, Redirect, useRouteMatch, useHistory } from 'react-router-dom';
 
+import MyProject from './MyProject';
+import BussinessPlan from './BusinessPlan';
+import Team from './Team';
+import MyEvents from './MyEvents';
+
 const HomePage: React.FC = () => {
   const history = useHistory();
   const { path } = useRouteMatch();
@@ -14,31 +19,6 @@ const HomePage: React.FC = () => {
     }
   });
 
-
-  const screen1 = () => {
-    return (
-      <h1>Meu projeto</h1>
-    )
-  }
-
-   const screen2 = () => {
-    return (
-      <h1>Plano de negócios</h1>
-    )
-  }
-
-  const screen3 = () => {
-    return (
-      <h1>Equipe</h1>
-    )
-  }
-
-  const screen4 = () => {
-    return (
-      <h1>Equipe</h1>
-    )
-  }
-
   return (
     <InternalLayout>
       <Switch>
@@ -46,19 +26,19 @@ const HomePage: React.FC = () => {
           exact
           from="/home"
           to={
-            currentEvent.isAdmin
-              ? `${path}/eventos`
+            currentEvent?.isAdmin
+              ? `${path}/meus-eventos`
               : `${path}/meu-projeto`
           }
         />
 
-        <Route path={`${path}/meu-projeto`} component={screen1} />
+        <Route path={`${path}/meu-projeto`} component={MyProject} />
 
-        <Route path={`${path}/plano-negocios`} component={screen2} />
+        <Route path={`${path}/plano-negocios`} component={BussinessPlan} />
 
-        <Route path={`${path}/equipe`} component={screen3} />
+        <Route path={`${path}/equipe`} component={Team} />
 
-        <Route path={`${path}/eventos`} component={screen4} />
+        <Route path={`${path}/meus-eventos`} component={MyEvents} />
       </Switch>
     </InternalLayout>
   );

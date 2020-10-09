@@ -9,6 +9,7 @@ interface EventItem {
 
 const Container = styled.div`
   display: block;
+  padding: 3% 5%;
 `;
 
 const Title = styled.h1`

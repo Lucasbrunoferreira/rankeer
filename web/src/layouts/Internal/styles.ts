@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 3% 5%;
+  width: 100%;
 `;
 
 export default {
