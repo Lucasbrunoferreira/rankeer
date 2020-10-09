@@ -9,9 +9,17 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   flex: 1;
-  padding: 5% 3%;
+  padding: 3%;
 `;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`;
+
 export default {
   Container,
-  Wrapper
+  Wrapper,
+  Row,
 };

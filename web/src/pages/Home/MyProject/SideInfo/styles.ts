@@ -10,7 +10,7 @@ interface ColorPickerProps {
 }
 
 const Container = styled.div<Props>`
-  background: ${({ theme }) => theme.colors.background.secundary};
+  background-color: ${({ theme }) => theme.colors.background.secundary};
   padding: 50px 30px 20px 20px;
   width: 190px;
   display: flex;
