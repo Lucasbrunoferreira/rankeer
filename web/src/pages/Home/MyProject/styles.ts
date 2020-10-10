@@ -10,12 +10,29 @@ const Container = styled.div`
 const Wrapper = styled.div`
   flex: 1;
   padding: 3%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.background.highlight};
+    border-radius: 4px;
+  }
 `;
 
 const Row = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 1195px;
+
+  .box {
+    margin: 15px;
+  }
 `;
 
 export default {

@@ -1,10 +1,10 @@
 import React from 'react';
 import Styles from './styles';
 import useProjectContext from 'hooks/useProjectContext';
+import useFlashMessage from 'hooks/useFlashMessage';
 
 import { ReactComponent as LinkIcon } from 'assets/svg/link.svg'
 import { ReactComponent as ClipboardIcon } from 'assets/svg/clipboard.svg'
-import useFlashMessage from 'hooks/useFlashMessage';
 
 const Links: React.FC = () => {
   const { links, setLinks } = useProjectContext();
@@ -25,7 +25,7 @@ const Links: React.FC = () => {
   }
 
   return (
-    <Styles.Box>
+    <Styles.Box className="box">
       <Styles.TitleWrapper>
         <LinkIcon width={20} />
 

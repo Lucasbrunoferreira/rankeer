@@ -70,7 +70,7 @@ const EventsPage: React.FC = () => {
   const handleSelecteEvent = (event: Event) => {
     if (event.status === EventStatus.INPROGRESS) {
       setCurrentEvent(event);
-      history.push('/home');
+      history.push('/home/meu-projeto');
     }
   }
 

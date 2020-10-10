@@ -18,7 +18,7 @@ const SideMenu = styled.div`
   transition: all ease 1s;
 
   :hover {
-    width: 190px;
+    width: 220px;
   }
 `;
 

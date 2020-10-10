@@ -5,7 +5,7 @@ import { ReactComponent as BellIcon } from 'assets/svg/bell.svg'
 
 const Notifications: React.FC = () => {
   return (
-    <Styles.Box>
+    <Styles.Box className="box">
       <Styles.TitleWrapper>
         <BellIcon width={20} />
 

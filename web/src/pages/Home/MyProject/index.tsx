@@ -4,6 +4,9 @@ import Styles from './styles';
 import SideInfo from './SideInfo';
 import Notifications from './Notifications';
 import Links from './Links';
+import CountMembers from './CountMembers';
+import Annotations from './Annotations';
+import Tasks from './Tasks';
 
 const MyProject: React.FC = () => {
   return (
@@ -13,6 +16,16 @@ const MyProject: React.FC = () => {
           <Notifications />
 
           <Links />
+
+          <CountMembers />
+        </Styles.Row>
+
+        <Styles.Row>
+          <Tasks />
+        </Styles.Row>
+
+        <Styles.Row>
+          <Annotations />
         </Styles.Row>
       </Styles.Wrapper>
 

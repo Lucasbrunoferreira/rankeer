@@ -3,10 +3,8 @@ import styled from 'styled-components';
 const Box = styled.div`
   background-color: ${({ theme }) => theme.colors.background.secundary};
   border-radius: 5px;
-  width: 320px;
   height: 160px;
   padding: 20px;
-  margin-right: 30px;
 `;
 
 const EventName = styled.span`
@@ -19,7 +17,7 @@ const EventName = styled.span`
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 0px;
+  margin: 5px 0px 20px 0px;
 `;
 
 const Title = styled.span`

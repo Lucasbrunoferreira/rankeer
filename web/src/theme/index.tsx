@@ -38,7 +38,8 @@ export const theme = {
     regular: '1rem',
     medium: '1.2rem',
     large: '1.5rem',
-    big: '1.8rem'
+    big: '1.8rem',
+    giant: '3.5rem'
   },
 };
 

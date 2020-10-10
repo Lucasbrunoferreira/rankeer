@@ -17,6 +17,7 @@ export interface ProjectCtx {
   setTags: Function;
   setColor: Function;
   setLinks: Function;
+  setTasks: Function;
 }
 
 const ProjectContext = React.createContext<ProjectCtx>({
@@ -31,7 +32,8 @@ const ProjectContext = React.createContext<ProjectCtx>({
   annotations: null,
   setTags: () => '',
   setColor: () => '',
-  setLinks: () => ''
+  setLinks: () => '',
+  setTasks: () => ''
 });
 
 const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
@@ -58,7 +60,7 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
   }, [])
 
   return (
-    <ProjectContext.Provider value={{ name, description, impactPhrase, color, tasks, tags, members, annotations, links, setTags, setColor, setLinks }}>
+    <ProjectContext.Provider value={{ name, description, impactPhrase, color, tasks, tags, members, annotations, links, setTags, setColor, setLinks, setTasks }}>
       {children}
     </ProjectContext.Provider>
   );

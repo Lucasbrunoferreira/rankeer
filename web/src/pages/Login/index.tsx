@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
           const { user, token } = result.data;
           setCurrentUser(user)
           setToken(token)
-          history.replace('/home')
+          history.replace('/events')
         })
         .catch((err) => {
           setMessage('Verifique seu e-mail e senha.')

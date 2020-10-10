@@ -32,9 +32,9 @@ const SideMenu: React.FC = () => {
       role: 'participant',
     },
     {
-      path: '/home/plano-negocios',
+      path: '/home/modelo-negocios',
       icon: LayoutIcon,
-      name: 'Plano de Negócios',
+      name: 'Modelo de Negócios',
       role: 'participant'
     },
     {
