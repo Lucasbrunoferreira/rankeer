@@ -4,6 +4,7 @@ import Route from '@ioc:Adonis/Core/Route'
 import './users'
 import './auth'
 import './events'
+import './projects'
 
 Route.get('/', async () => {
   return { name: 'Rankeer - Backend', version: process.env.npm_package_version, date: new Date() }

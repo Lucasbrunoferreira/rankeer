@@ -15,7 +15,7 @@ const BusinessModel: React.FC = () => {
       <Styles.Board>
         <Styles.Row className="first-row">
           <Styles.Box className="box" color="#3498DB">
-            <Styles.TitleBox>Parecerias chave</Styles.TitleBox>
+            <Styles.TitleBox>Parcerias chave</Styles.TitleBox>
 
             <Styles.TextArea spellCheck={false} />
           </Styles.Box>
