@@ -50,10 +50,10 @@ const SideInfo: React.FC = () => {
         />
 
         <Styles.TagsList>
-          {tags.map((tag, index) => <Styles.Tag onClick={() => handleRemoveTag(tag)} key={index}>{tag}</Styles.Tag>)}
+          {tags?.map((tag, index) => <Styles.Tag onClick={() => handleRemoveTag(tag)} key={index}>{tag}</Styles.Tag>)}
         </Styles.TagsList>
 
-        {tags.length < 5 ? (
+        {tags?.length < 5 ? (
           <Styles.InputTag
             ref={inputTagRef}
             value={tagValue}

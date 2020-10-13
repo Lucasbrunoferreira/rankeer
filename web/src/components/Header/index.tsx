@@ -12,10 +12,10 @@ const Header: React.FC = () => {
   const history = useHistory();
 
   const renderInitials = () => {
-    const firstLetter = user.name.substring(0, 1);
-    let secondLetter = user.name.substring(1, 2);
+    const firstLetter = user?.name.substring(0, 1);
+    let secondLetter = user?.name.substring(1, 2);
 
-    const secondName = user.name.split(' ')[1];
+    const secondName = user?.name.split(' ')[1];
 
     if (secondName) {
       secondLetter = secondName.substring(0, 1);
@@ -36,7 +36,7 @@ const Header: React.FC = () => {
       <Styles.Logo src={Logo} />
 
       <Styles.Wrapper>
-        <Styles.Text>{ user.name }</Styles.Text>
+        <Styles.Text>{ user?.name }</Styles.Text>
 
         <Styles.Initials>{renderInitials()}</Styles.Initials>
 

@@ -10,6 +10,7 @@ import { ptBR } from 'date-fns/locale';
 import { sortBy } from 'lodash';
 import { setCurrentEvent } from 'helpers/localStorage/currentEvent';
 import { useHistory } from 'react-router-dom';
+import projectService from 'services/project';
 
 const EventsPage: React.FC = () => {
   const { setMessage } = useFlashMessage();
@@ -70,7 +71,14 @@ const EventsPage: React.FC = () => {
   const handleSelecteEvent = (event: Event) => {
     if (event.status === EventStatus.INPROGRESS) {
       setCurrentEvent(event);
-      history.push('/home/meu-projeto');
+      projectService
+        .getProject(event.id)
+        .then((result) => {
+          history.replace('/home/meu-projeto', result.data);
+        })
+        .catch(() => {
+          history.replace('/novo-projeto');
+        })
     }
   }
 

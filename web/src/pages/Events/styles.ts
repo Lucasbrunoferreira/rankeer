@@ -42,7 +42,8 @@ const EventItem = styled.li<EventItem>`
   position: relative;
   transition: all 1s;
   margin: 25px 40px 0px 0px;
-  max-height: 70px;
+  height: 90px;
+  width: 300px;
 
   :hover {
     ${switchProp("status", {

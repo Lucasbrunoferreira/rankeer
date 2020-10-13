@@ -8,10 +8,10 @@ import BusinessModel from 'App/Models/BusinessModel'
 
 export default class ProjectService {
   public async saveOne (data: CreateProjectDto, userId: number): Promise<Project> {
-    return await Project.create({ ...data, userId })
+    return await Project.create({ ...data, userId, color: '#2980b9' })
   }
 
-  public async getOneByOwner (userId: number): Promise<Project> {
+  public async getOneByOwner (userId: number, eventId: number): Promise<Project> {
     const project = await Project.query()
       .preload('businessModel')
       .preload('owner')
@@ -19,6 +19,7 @@ export default class ProjectService {
       .preload('tags')
       .preload('tasks')
       .where('userId', userId)
+      .andWhere('eventId', eventId)
       .firstOrFail()
 
     return project

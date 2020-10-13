@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Styles from './styles';
+import useProjectContext from 'hooks/useProjectContext';
 
 import SideInfo from './SideInfo';
 import Notifications from './Notifications';
@@ -9,6 +10,13 @@ import Annotations from './Annotations';
 import Tasks from './Tasks';
 
 const MyProject: React.FC = () => {
+  const { fetchProjectData } = useProjectContext();
+
+  useEffect(() => {
+    fetchProjectData()
+    //eslint-disable-next-line
+  }, [])
+
   return (
     <Styles.Container>
       <Styles.Wrapper>

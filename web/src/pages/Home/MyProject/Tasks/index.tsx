@@ -40,12 +40,12 @@ const Tasks: React.FC = () => {
       </Styles.TitleWrapper>
 
 
-      {tasks.length <= 0 ? (
+      {tasks?.length <= 0 ? (
         <Styles.Empty>Cadastre aqui as tarefas do projeto que a equipe precisa desenvolver.</Styles.Empty>
       ) : null}
 
       <Styles.List>
-        {tasks.map((task, index) => (
+        {tasks?.map((task, index) => (
           <Styles.Item key={index}>
             <CheckBox initialValue={task.isDone} color={color} onChangeValue={(value) => console.log(value)} />
 

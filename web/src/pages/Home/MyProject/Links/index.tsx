@@ -39,11 +39,11 @@ const Links: React.FC = () => {
       </Styles.SaveWrapper>
 
       <Styles.Links>
-        {links.length <= 0 ? (
+        {links?.length <= 0 ? (
           <Styles.Empty>Salve seus links da web aqui para que toda a equipe possa ver!</Styles.Empty>
         ) : null}
 
-        {links.map((link, index) => <Styles.Link key={index} href={link} target="_blank">{link}</Styles.Link>)}
+        {links?.map((link, index) => <Styles.Link key={index} href={link} target="_blank">{link}</Styles.Link>)}
       </Styles.Links>
     </Styles.Box>
   );

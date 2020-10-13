@@ -2,6 +2,7 @@ import { hasCurrentEvent } from 'helpers/localStorage/currentEvent';
 import React, { useEffect } from 'react';
 import InternalLayout from 'layouts/Internal';
 import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
+
 import MyProject from './MyProject';
 import BusinessModel from './BusinessModel ';
 import Team from './Team';

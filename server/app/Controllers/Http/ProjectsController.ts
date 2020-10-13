@@ -12,9 +12,10 @@ import { BusinessModelValidator } from 'App/Validators/BusinessModelValidator'
 export default class ProjectController {
   private projectService = new ProjectService()
 
-  public async index ({ auth }: HttpContextContract) {
+  public async index ({ auth, request }: HttpContextContract) {
     const { id } = await useLoggedUser(auth)
-    return this.projectService.getOneByOwner(id)
+    const eventId = request.input('eventId')
+    return this.projectService.getOneByOwner(id, eventId)
   }
 
   public async store ({ request, response, auth }: HttpContextContract) {
