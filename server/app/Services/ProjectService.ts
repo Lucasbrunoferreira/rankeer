@@ -55,23 +55,27 @@ export default class ProjectService {
     project.related('links').save(link)
   }
 
-  public async saveTaskInProject (description: string, projectId: number): Promise<void> {
+  public async saveTaskInProject (description: string, projectId: number): Promise<Task[]> {
     const project = await Project.findOrFail(projectId)
 
     const task = new Task()
     task.description = description
     task.isDone = false
 
-    project.related('tasks').save(task)
+    await project.related('tasks').save(task)
+
+    return Task.query().where('projectId', projectId).exec()
   }
 
-  public async saveTagInProject (description: string, projectId: number): Promise<void> {
+  public async saveTagInProject (description: string, projectId: number): Promise<Tag[]> {
     const project = await Project.findOrFail(projectId)
 
     const tag = new Tag()
     tag.description = description
 
-    project.related('tags').save(tag)
+    await project.related('tags').save(tag)
+
+    return Tag.query().where('projectId', projectId).exec()
   }
 
   public async setTaskStatus (taskId: number, status: boolean): Promise<void> {

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Styles from './styles';
 import useProjectContext from 'hooks/useProjectContext';
+import { Loading } from 'components';
 
 import SideInfo from './SideInfo';
 import Notifications from './Notifications';
@@ -10,7 +11,7 @@ import Annotations from './Annotations';
 import Tasks from './Tasks';
 
 const MyProject: React.FC = () => {
-  const { fetchProjectData } = useProjectContext();
+  const { fetchProjectData, isLoading} = useProjectContext();
 
   useEffect(() => {
     fetchProjectData()
@@ -19,6 +20,7 @@ const MyProject: React.FC = () => {
 
   return (
     <Styles.Container>
+      <Loading isLoading={isLoading} />
       <Styles.Wrapper>
         <Styles.Row>
           <Notifications />

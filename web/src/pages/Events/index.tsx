@@ -11,6 +11,7 @@ import { sortBy } from 'lodash';
 import { setCurrentEvent } from 'helpers/localStorage/currentEvent';
 import { useHistory } from 'react-router-dom';
 import projectService from 'services/project';
+import { Loading } from 'components';
 
 const EventsPage: React.FC = () => {
   const { setMessage } = useFlashMessage();
@@ -20,6 +21,7 @@ const EventsPage: React.FC = () => {
   const [filteredEvents, setFiltered] = useState<Event[]>([]);
 
   const [selectedStatus, setSelectedStatus] = useState<number[]>([1, 2, 3]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const formatStatusInEvent = (listOfEvents: Event[]) => {
@@ -30,15 +32,18 @@ const EventsPage: React.FC = () => {
     }
 
     const fetchData = () => {
+      setLoading(true)
+
       eventService.eventsParticipants()
-      .then((result) => {
-        const formattedEvents = formatStatusInEvent(result?.data);
-        setEvents(formattedEvents);
-        setFiltered(formattedEvents);
-      })
-      .catch((err) => {
-        setMessage('Algo inesperado ao buscar os eventos.')
-      });
+        .then((result) => {
+          const formattedEvents = formatStatusInEvent(result?.data);
+          setEvents(formattedEvents);
+          setFiltered(formattedEvents);
+        })
+        .catch((err) => {
+          setMessage('Algo inesperado ao buscar os eventos.')
+        })
+        .finally(() => setLoading(false))
     }
 
     fetchData();
@@ -70,6 +75,7 @@ const EventsPage: React.FC = () => {
 
   const handleSelecteEvent = (event: Event) => {
     if (event.status === EventStatus.INPROGRESS) {
+      setLoading(true)
       setCurrentEvent(event);
       projectService
         .getProject(event.id)
@@ -84,6 +90,8 @@ const EventsPage: React.FC = () => {
 
   return (
     <InternLayout hiddenSideMenu>
+      <Loading isLoading={isLoading} />
+
       <Styles.Container>
         <Styles.Title>Selecione um evento para prosseguir</Styles.Title>
 
@@ -96,6 +104,7 @@ const EventsPage: React.FC = () => {
         <Styles.EventsList>
           {filteredEvents.map((event) => (
             <Styles.EventItem key={event.id} status={event.status} onClick={() => handleSelecteEvent(event)}>
+
               <Styles.EventName>{event.name}</Styles.EventName>
 
               <Styles.Text>

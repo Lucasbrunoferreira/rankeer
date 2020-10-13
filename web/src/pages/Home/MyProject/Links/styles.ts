@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Box = styled.div`
   background-color: ${({ theme }) => theme.colors.background.secundary};
   border-radius: 5px;
-  max-width: 500px;
+  width: 475px;
   height: 160px;
   padding: 20px;
 `;
@@ -71,6 +71,7 @@ const Link = styled.a`
 const Empty = styled.a`
   color: ${({ theme }) => theme.colors.text.opaqueInDark};
   font-size: ${({ theme }) => theme.fontSizes.regular};
+  margin-top: 30px;
 `;
 
 export default {

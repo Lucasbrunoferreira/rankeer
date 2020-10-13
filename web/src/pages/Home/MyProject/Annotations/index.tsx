@@ -5,7 +5,7 @@ import { ReactComponent as BookIcon } from 'assets/svg/book.svg'
 import useProjectContext from 'hooks/useProjectContext';
 
 const Annotations: React.FC = () => {
-  const { annotations, color } = useProjectContext();
+  const { annotations, color, updateProjectData } = useProjectContext();
 
   return (
     <Styles.Box color={color} className="box">
@@ -21,6 +21,7 @@ const Annotations: React.FC = () => {
         placeholder="Insira aqui anotações que você e sua equipe acharem relevantes."
         spellCheck={false}
         defaultValue={annotations}
+        onBlur={(e) => updateProjectData({ annotations: e.target.value })}
       />
     </Styles.Box>
   );

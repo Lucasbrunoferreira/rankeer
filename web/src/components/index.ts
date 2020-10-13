@@ -4,6 +4,7 @@ import Footer from './Footer';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import CheckBox from './CheckBox';
+import Loading from './Loading';
 
 export {
   PrivateRoute,
@@ -12,4 +13,5 @@ export {
   Header,
   SideMenu,
   CheckBox,
+  Loading,
 }

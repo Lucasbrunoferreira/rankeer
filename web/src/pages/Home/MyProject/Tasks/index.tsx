@@ -1,23 +1,22 @@
-import React, { useRef, KeyboardEvent } from 'react';
+import React, { useRef, KeyboardEvent, useState } from 'react';
 import Styles from './styles';
 import useProjectContext from 'hooks/useProjectContext';
 import { CheckBox } from 'components';
 
 import { ReactComponent as CheckIcon } from 'assets/svg/check.svg'
-import { Task } from 'interfaces/Task';
+import { ReactComponent as LoadingIcon } from 'assets/svg/loading.svg'
+
 
 const Tasks: React.FC = () => {
-  const { tasks, color, setTasks } = useProjectContext();
+  const { tasks, color, saveTask, setTaskStatus } = useProjectContext();
   const inputRef = useRef(null);
+
+  const [isLoading, setLoading] = useState(false)
 
   const handleSaveTask = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      const newTask: Task = {
-        description: event.currentTarget.value,
-        isDone: false,
-      }
-
-      setTasks([newTask, ...tasks ])
+      setLoading(true)
+      saveTask(event.currentTarget.value).finally(() => setLoading(false))
 
       inputRef?.current?.blur();
       inputRef.current.value = '';
@@ -26,6 +25,10 @@ const Tasks: React.FC = () => {
 
   return (
     <Styles.Box className="box">
+      {isLoading ? (<Styles.Loading>
+        <LoadingIcon width="60" height="60" />
+      </Styles.Loading>) : null}
+
       <Styles.TitleWrapper>
         <CheckIcon width={20} />
 
@@ -47,7 +50,7 @@ const Tasks: React.FC = () => {
       <Styles.List>
         {tasks?.map((task, index) => (
           <Styles.Item key={index}>
-            <CheckBox initialValue={task.isDone} color={color} onChangeValue={(value) => console.log(value)} />
+            <CheckBox initialValue={task.is_done} color={color} onChangeValue={(value) => setTaskStatus(task.id, value)} />
 
             <Styles.Description>{task.description}</Styles.Description>
           </Styles.Item>

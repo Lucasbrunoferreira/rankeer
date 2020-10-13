@@ -7,18 +7,18 @@ import { ReactComponent as LinkIcon } from 'assets/svg/link.svg'
 import { ReactComponent as ClipboardIcon } from 'assets/svg/clipboard.svg'
 
 const Links: React.FC = () => {
-  const { links, setLinks } = useProjectContext();
+  const { links, saveLink } = useProjectContext();
   const { setMessage } = useFlashMessage();
 
   const validateUrl = (value: string) => {
-    return value.startsWith('http://') || value.startsWith('https://')
+    return value.startsWith('http://') || value.startsWith('https://') || value.startsWith('www.')
   }
 
   const handleClipboardData = async () => {
     const clipboardData = await window.navigator.clipboard.readText();
 
     if (validateUrl(clipboardData)) {
-      setLinks([...links, clipboardData]);
+      saveLink(clipboardData)
     } else {
       setMessage('O texto copiado não é uma URL/Link')
     }
@@ -40,10 +40,10 @@ const Links: React.FC = () => {
 
       <Styles.Links>
         {links?.length <= 0 ? (
-          <Styles.Empty>Salve seus links da web aqui para que toda a equipe possa ver!</Styles.Empty>
+          <Styles.Empty>Salve links da web aqui para que toda a equipe possa ver!</Styles.Empty>
         ) : null}
 
-        {links?.map((link, index) => <Styles.Link key={index} href={link} target="_blank">{link}</Styles.Link>)}
+        {links?.map((link, index) => <Styles.Link key={index} href={link.description} target="_blank">{link.description}</Styles.Link>)}
       </Styles.Links>
     </Styles.Box>
   );

@@ -6,6 +6,23 @@ const Box = styled.div`
   height: 220px;
   padding: 20px;
   width: 100%;
+  position: relative;
+`;
+
+const Loading = styled.div`
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(32, 34, 37, 0.85);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const TitleWrapper = styled.div`
@@ -78,4 +95,5 @@ export default {
   Description,
   Empty,
   Input,
+  Loading,
 };

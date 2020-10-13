@@ -3,7 +3,7 @@ import { switchProp, prop, ifProp } from 'styled-tools';
 import { EventStatus } from 'helpers/enums/EventStatus';
 
 interface EventItem {
-  status: EventStatus;
+  status?: EventStatus;
   isActive?: boolean;
 }
 
@@ -44,6 +44,9 @@ const EventItem = styled.li<EventItem>`
   margin: 25px 40px 0px 0px;
   height: 90px;
   width: 300px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
   :hover {
     ${switchProp("status", {

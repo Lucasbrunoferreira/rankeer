@@ -4,6 +4,10 @@ import { Task } from 'interfaces/Task';
 import { theme } from 'theme'
 import projectService from 'services/project';
 import { getCurrentEvent } from 'helpers/localStorage/currentEvent';
+import useFlashMessage from 'hooks/useFlashMessage';
+import { Tag } from 'interfaces/Tag';
+import { Link } from 'interfaces/Link';
+import { BusinessModel } from 'interfaces/BusinessModel';
 
 export interface ProjectCtx {
   haveProject: boolean;
@@ -13,17 +17,22 @@ export interface ProjectCtx {
   description: string;
   impactPhrase: string;
   color: string;
-  tags: string[];
+  tags: Tag[];
   members: User[];
-  links: string[];
+  links: Link[];
   tasks: Task[];
   annotations: string;
-  setTags: Function;
-  setColor: Function;
-  setLinks: Function;
-  setTasks: Function;
   fetchProjectData: Function;
   setProjectData: Function;
+  isLoading: boolean;
+  updateProjectData: Function;
+  removeTag: Function;
+  saveTag: Function;
+  saveTask: Function;
+  setTaskStatus: Function;
+  saveLink: Function;
+  saveBusinessModel: Function;
+  businessModel: BusinessModel
 }
 
 const ProjectContext = React.createContext<ProjectCtx>({
@@ -39,32 +48,43 @@ const ProjectContext = React.createContext<ProjectCtx>({
   links: [],
   tasks: [],
   annotations: null,
-  setTags: () => '',
-  setColor: () => '',
-  setLinks: () => '',
-  setTasks: () => '',
   fetchProjectData: () => '',
   setProjectData: () => '',
+  updateProjectData: () => '',
+  isLoading: false,
+  removeTag: () => '',
+  saveTag: () => '',
+  saveTask: () => '',
+  setTaskStatus: () => '',
+  saveLink: () => '',
+  saveBusinessModel: () => '',
+  businessModel: null
 });
 
 const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
   const [haveProject, setHaveProject] = useState(false)
+  const [isLoading, setLoading] = useState(true);
 
   const [projectId, setProjectId] = useState<number>();
   const [owner, setOwner] = useState<User>(null)
   const [name, setName] = useState<string>(null);
   const [description, setDescription] = useState<string>(null);
   const [impactPhrase, setImpactPhrase] = useState<string>(null);
-  const [color, setColor] = useState<string>(theme.colors.projectColors[0]);
-  const [tags, setTags] = useState<string[]>([]);
+  const [color, setColor] = useState<string>('#27292c');
+  const [tags, setTags] = useState<Tag[]>([]);
   const [members, setMembers] = useState<User[]>([]);
-  const [links, setLinks] = useState<string[]>([]);
+  const [links, setLinks] = useState<Link[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [annotations, setAnnotations] = useState<string>(null);
+  const [businessModel, setBusinessModel] = useState<BusinessModel>(null);
+
 
   const currentEvent = getCurrentEvent();
 
+  const { setMessage } = useFlashMessage()
+
   const fetchProjectData = () => {
+    setLoading(true)
     return new Promise((resolve, reject) => {
       projectService
       .getProject(currentEvent.id)
@@ -75,29 +95,116 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
       .catch(() => {
         setHaveProject(false)
         reject()
-       });
+       })
+       .finally(() => setLoading(false))
     })
   }
 
-  const setProjectData = (event: any) => {
+  const setProjectData = (project: any) => {
     setHaveProject(true)
-    setProjectId(event?.id)
-    setOwner(event?.owner)
-    setName(event?.name)
-    setDescription(event?.description)
-    setImpactPhrase(event?.impactPhrase)
-    setColor(event?.color)
-    setTags(event?.tags)
-    setLinks(event?.links)
-    setTasks(event?.tasks)
-    setAnnotations(event?.annotations)
+    setProjectId(project?.id)
+    setOwner(project?.owner)
+    setName(project?.name)
+    setDescription(project?.description)
+    setImpactPhrase(project?.impact_phrase)
+    setColor(project?.color)
+    setTags(project?.tags)
+    setLinks(project?.links)
+    setTasks(project?.tasks)
+    setAnnotations(project?.annotations)
+    setBusinessModel(project?.businessModel)
     setMembers([])
+  }
+
+  const updateProjectData = (data: {
+    name?: string,
+    description?: string,
+    color?: string,
+    impactPhrase?: string,
+    annotations?: string
+  }) => {
+    setName(data.name || name)
+    setDescription(data.description || description)
+    setColor(data.color || color)
+    setImpactPhrase(data.impactPhrase || impactPhrase)
+    setAnnotations(data.annotations || annotations)
+
+    projectService.updateProject(projectId, data).catch(() => {
+      setMessage('Houve um erro ao tentar alterar as informações do projeto!')
+    })
+  }
+
+  const saveTag = (description: string) => {
+    setTags([ ...tags, { id: null, description }])
+
+    projectService.saveTag(projectId, description)
+    .then((res) => {
+      setTags(res.data)
+    })
+    .catch(() => {
+      setMessage('Houve um erro ao salvar a tag!')
+    })
+  }
+
+  const removeTag = (tag: Tag) => {
+    setTags(tags.filter(t => t.description !== tag.description));
+
+    projectService.removeTag(tag.id).catch(() => {
+      setMessage('Houve um erro ao tentar remover a tag!')
+    })
+  }
+
+  const saveTask = (description: string) => {
+    return new Promise((resolve, reject) => {
+      projectService.saveTask(projectId, description)
+      .then((res) => {
+        setTasks(res.data)
+        resolve()
+      })
+      .catch(() => {
+        setMessage('Houve um erro ao tentar remover a tag!')
+        reject()
+      })
+    })
+  }
+
+  const setTaskStatus = (taskId: number, status: boolean) => {
+    if (status) {
+      projectService.setDoneTask(taskId)
+      .catch(() => {
+        setMessage('Houve um erro ao tentar alterar o status da tarefa!')
+      })
+    } else {
+      projectService.setUnDoneTask(taskId)
+      .catch(() => {
+        setMessage('Houve um erro ao tentar alterar o status da tarefa!')
+      })
+    }
+  }
+
+  const saveLink = (description: string) => {
+    setLinks([...links, { description }]);
+
+    projectService.saveLink(projectId, description)
+    .catch(() => {
+      setMessage('Houve um erro ao salvar o link!')
+    })
+  }
+
+  const saveBusinessModel = (data: BusinessModel) => {
+    setBusinessModel(data)
+    console.log(projectId)
+    projectService.saveBusinessModel(projectId, data)
+    .catch(() => {
+      setMessage('Houve um erro ao salvar o plano de negócios')
+    })
   }
 
   return (
     <ProjectContext.Provider value={{
       fetchProjectData,
       setProjectData,
+      updateProjectData,
       haveProject,
       name,
       projectId,
@@ -110,10 +217,14 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
       members,
       annotations,
       links,
-      setTags,
-      setColor,
-      setLinks,
-      setTasks,
+      isLoading,
+      removeTag,
+      saveTag,
+      saveTask,
+      setTaskStatus,
+      saveLink,
+      saveBusinessModel,
+      businessModel
     }}>
       {children}
     </ProjectContext.Provider>

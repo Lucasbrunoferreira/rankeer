@@ -6,7 +6,7 @@ import useProjectContext from 'hooks/useProjectContext';
 
 const SideInfo: React.FC = () => {
   const { colors } = useTheme();
-  const { color, tags, setTags, setColor, name, description, impactPhrase } = useProjectContext();
+  const { color, tags, name, description, impactPhrase, updateProjectData, saveTag, removeTag } = useProjectContext();
 
   const [tagValue, setTagValue] = useState<string>('');
   const [visibleColorPicker, setVisibleColorPicler] = useState(false);
@@ -20,23 +20,20 @@ const SideInfo: React.FC = () => {
 
   const handleSaveTag = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      setTags([...tags, tagValue])
+      saveTag(tagValue)
       inputTagRef?.current?.blur();
     }
   }
 
-  const handleRemoveTag = (value: string) => {
-    setTags(tags.filter(tag => tag !== value));
-  }
-
   return (
     <Styles.Container color={color}>
-     <Styles.Infos>
-      <Styles.Title
+      <Styles.Infos>
+        <Styles.Title
           spellCheck={false}
           defaultValue={name}
           maxLength={16}
           placeholder="Nome do Projeto"
+          onBlur={(e) => updateProjectData({ name: e.target.value })}
         />
 
         <hr />
@@ -47,10 +44,11 @@ const SideInfo: React.FC = () => {
           spellCheck={false}
           rows={7}
           defaultValue={description}
+          onBlur={(e) => updateProjectData({ description: e.target.value })}
         />
 
         <Styles.TagsList>
-          {tags?.map((tag, index) => <Styles.Tag onClick={() => handleRemoveTag(tag)} key={index}>{tag}</Styles.Tag>)}
+          {tags?.map((tag, index) => <Styles.Tag onClick={() => removeTag(tag)} key={index}>{tag.description}</Styles.Tag>)}
         </Styles.TagsList>
 
         {tags?.length < 5 ? (
@@ -72,18 +70,19 @@ const SideInfo: React.FC = () => {
           spellCheck={false}
           rows={7}
           defaultValue={impactPhrase}
+          onBlur={(e) => updateProjectData({ impactPhrase: e.target.value })}
         />
-     </Styles.Infos>
+      </Styles.Infos>
 
-     <Styles.Configs>
-      <Styles.SubTitle>Cor do Projeto:</Styles.SubTitle>
+      <Styles.Configs>
+        <Styles.SubTitle>Cor do Projeto:</Styles.SubTitle>
 
-      <Styles.ColorCircle color={color} onClick={() => setVisibleColorPicler(!visibleColorPicker)} />
+        <Styles.ColorCircle color={color} onClick={() => setVisibleColorPicler(!visibleColorPicker)} />
 
-      <Styles.ListColors isVisible={visibleColorPicker}>
-        {colors.projectColors.map(color => <Styles.ColorCircle key={color} color={color} onClick={() => {setColor(color); setVisibleColorPicler(false)}} />)}
-      </Styles.ListColors>
-     </Styles.Configs>
+        <Styles.ListColors isVisible={visibleColorPicker}>
+          {colors.projectColors.map(c => <Styles.ColorCircle key={c} color={c} onClick={() => { updateProjectData({ color: c }); setVisibleColorPicler(false) }} />)}
+        </Styles.ListColors>
+      </Styles.Configs>
     </Styles.Container>
   );
 };

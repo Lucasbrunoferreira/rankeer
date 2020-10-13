@@ -28,7 +28,7 @@ const Row = styled.div`
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 1195px;
+  max-width: 1170px;
 
   .box {
     margin: 15px;

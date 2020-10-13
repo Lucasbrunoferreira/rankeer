@@ -42,6 +42,14 @@ const Text = styled.textarea`
   height: 120px;
   resize: none;
   width: 100%;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.background.highlight};
+    bor
 `;
 
 export default {
