@@ -46,6 +46,10 @@ const saveBusinessModel = (projectId: number, data: BusinessModel) => {
   return axios.post(`project/${projectId}/businessModel`, data);
 }
 
+const inviteMember = (projectId: number, email: string) => {
+  return axios.post(`project/${projectId}/invite`, { email });
+}
+
 export default {
   getProject,
   createProject,
@@ -56,5 +60,6 @@ export default {
   setDoneTask,
   setUnDoneTask,
   saveLink,
-  saveBusinessModel
+  saveBusinessModel,
+  inviteMember
 }

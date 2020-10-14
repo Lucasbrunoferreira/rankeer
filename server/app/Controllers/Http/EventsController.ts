@@ -11,9 +11,8 @@ export default class EventsController {
   private eventsService = new EventsService()
   private userService = new UsersService()
 
-  public async index ({ auth }: HttpContextContract) {
-    const { id } = await useLoggedUser(auth)
-    return this.eventsService.getAllByUser(id)
+  public async index () {
+    return this.eventsService.getAll()
   }
 
   public async store ({ request, auth }: HttpContextContract) {

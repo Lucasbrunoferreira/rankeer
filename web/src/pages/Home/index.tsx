@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     if (!hasCurrentEvent()) {
-      history.replace('/events')
+      history.replace('/eventos')
     }
   });
 

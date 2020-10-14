@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Redirect } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { PrivateRoute } from 'components';
 
 import Home from 'pages/Home';
@@ -12,7 +12,7 @@ const InternalRoutes = () => (
 
     <PrivateRoute exact path="/novo-projeto" component={NewProject} />
 
-    <PrivateRoute exact path="/events" component={Events} />
+    <PrivateRoute exact path="/eventos" component={Events} />
   </Switch>
 );
 

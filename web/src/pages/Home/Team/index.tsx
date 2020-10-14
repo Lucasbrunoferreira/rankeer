@@ -1,70 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import useProjectContext from 'hooks/useProjectContext';
+import { Loading } from 'components';
 import Styles from './styles';
+import { validateEmail } from 'helpers/validators/email';
 
 import { ReactComponent as SendIcon } from 'assets/svg/send.svg'
 import { ReactComponent as SkillIcon } from 'assets/svg/skill.svg'
-import useProjectContext from 'hooks/useProjectContext';
+import { ReactComponent as OfficeIcon } from 'assets/svg/office.svg'
 
 const Team: React.FC = () => {
-  const { color } = useProjectContext();
+  const { color, members, fetchProjectData, isLoading, inviteMember } = useProjectContext();
+
+  const [email, setEmail] = useState({ value: null, isValid: true })
+
+  const renderInitials = (name: string) => {
+    const firstLetter = name.substring(0, 1);
+    let secondLetter = name.substring(1, 2);
+
+    const secondName = name.split(' ')[1];
+
+    if (secondName) {
+      secondLetter = secondName.substring(0, 1);
+    }
+
+    return `${firstLetter}${secondLetter}`;
+  }
+
+  useEffect(() => {
+    fetchProjectData()
+    //eslint-disable-next-line
+  }, [])
+
+  const handleInvite = (value: string) => {
+    const isValid = validateEmail(value)
+    setEmail({ value, isValid })
+  }
 
   return (
     <Styles.Container>
+      <Loading isLoading={isLoading} />
+
       <Styles.Title>Minha Equipe</Styles.Title>
 
       <Styles.Wrapper>
-        <Styles.Input spellCheck={false} placeholder="Insira o e-mail para enviar um convite de equipe" />
+        <Styles.Input spellCheck={false} onChange={(e) => handleInvite(e.target.value)} placeholder="Insira o e-mail para enviar um convite de equipe" />
 
-        <Styles.Button color={color}>
+        <Styles.Button onClick={() => inviteMember(email.value)} color={color} disabled={!email.value || !email.isValid}>
           <SendIcon width={20} />
           <Styles.BtnText>Enviar</Styles.BtnText>
         </Styles.Button>
+
+        {!email.isValid ? (
+          <Styles.Message>Informe um e-mail válido!</Styles.Message>
+        ) : null}
       </Styles.Wrapper>
 
       <Styles.List>
-        <Styles.Item>
-          <Styles.Initials>LB</Styles.Initials>
+        {members.map(member => (
+          <Styles.Item key={member.id}>
+            <Styles.Initials>{renderInitials(member.name)}</Styles.Initials>
 
-          <Styles.Name>Lucas Bruno Ferreira</Styles.Name>
+            <Styles.Name>{member.name}</Styles.Name>
 
-          <Styles.Email>lucasburnoferreira@@gmail.com</Styles.Email>
+            <Styles.Email>{member.email}</Styles.Email>
 
-          <Styles.WrapperTitle>
-            <SkillIcon width={20} />
+            <Styles.WrapperTitle>
+              <OfficeIcon width={20} />
 
-            <Styles.ItemTitle>Skills</Styles.ItemTitle>
-          </Styles.WrapperTitle>
+              <Styles.ItemTitle>Cargo</Styles.ItemTitle>
 
-          <Styles.Skills>
-            <Styles.Skill>#Programação</Styles.Skill>
-            <Styles.Skill>#Designer</Styles.Skill>
-            <Styles.Skill>#Trabalhoemequipe</Styles.Skill>
-            <Styles.Skill>#Liderança</Styles.Skill>
-            <Styles.Skill>#Frontend</Styles.Skill>
-          </Styles.Skills>
-        </Styles.Item>
+              <Styles.Text>{member.participantInfo.office}</Styles.Text>
+            </Styles.WrapperTitle>
 
-        <Styles.Item>
-          <Styles.Initials>CR</Styles.Initials>
+            <Styles.WrapperTitle>
+              <SkillIcon width={20} />
 
-          <Styles.Name>Cecilya Rodrigues</Styles.Name>
+              <Styles.ItemTitle>Skill</Styles.ItemTitle>
 
-          <Styles.Email>cecilyarodriguespires@@gmail.com</Styles.Email>
-
-          <Styles.WrapperTitle>
-            <SkillIcon width={20} />
-
-            <Styles.ItemTitle>Skills</Styles.ItemTitle>
-          </Styles.WrapperTitle>
-
-          <Styles.Skills>
-            <Styles.Skill>#Comunicação</Styles.Skill>
-            <Styles.Skill>#Liderança</Styles.Skill>
-            <Styles.Skill>#Falarempublico</Styles.Skill>
-            <Styles.Skill>#Microsoftword</Styles.Skill>
-            <Styles.Skill>#Criatividade</Styles.Skill>
-          </Styles.Skills>
-        </Styles.Item>
+              <Styles.Text>{member.participantInfo.skill}</Styles.Text>
+            </Styles.WrapperTitle>
+          </Styles.Item>
+        ))}
       </Styles.List>
     </Styles.Container>
   );

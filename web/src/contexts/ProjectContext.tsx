@@ -8,6 +8,7 @@ import useFlashMessage from 'hooks/useFlashMessage';
 import { Tag } from 'interfaces/Tag';
 import { Link } from 'interfaces/Link';
 import { BusinessModel } from 'interfaces/BusinessModel';
+import { Member } from 'interfaces/Member';
 
 export interface ProjectCtx {
   haveProject: boolean;
@@ -18,7 +19,7 @@ export interface ProjectCtx {
   impactPhrase: string;
   color: string;
   tags: Tag[];
-  members: User[];
+  members: Member[];
   links: Link[];
   tasks: Task[];
   annotations: string;
@@ -32,7 +33,8 @@ export interface ProjectCtx {
   setTaskStatus: Function;
   saveLink: Function;
   saveBusinessModel: Function;
-  businessModel: BusinessModel
+  businessModel: BusinessModel;
+  inviteMember: Function;
 }
 
 const ProjectContext = React.createContext<ProjectCtx>({
@@ -58,7 +60,8 @@ const ProjectContext = React.createContext<ProjectCtx>({
   setTaskStatus: () => '',
   saveLink: () => '',
   saveBusinessModel: () => '',
-  businessModel: null
+  businessModel: null,
+  inviteMember: () => ''
 });
 
 const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
@@ -72,7 +75,7 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
   const [impactPhrase, setImpactPhrase] = useState<string>(null);
   const [color, setColor] = useState<string>('#27292c');
   const [tags, setTags] = useState<Tag[]>([]);
-  const [members, setMembers] = useState<User[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [links, setLinks] = useState<Link[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [annotations, setAnnotations] = useState<string>(null);
@@ -113,7 +116,7 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
     setTasks(project?.tasks)
     setAnnotations(project?.annotations)
     setBusinessModel(project?.businessModel)
-    setMembers([])
+    setMembers(project?.members)
   }
 
   const updateProjectData = (data: {
@@ -193,10 +196,21 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
 
   const saveBusinessModel = (data: BusinessModel) => {
     setBusinessModel(data)
-    console.log(projectId)
     projectService.saveBusinessModel(projectId, data)
     .catch(() => {
       setMessage('Houve um erro ao salvar o plano de negócios')
+    })
+  }
+
+  const inviteMember = (email: string) => {
+    setLoading(true)
+    projectService.inviteMember(projectId, email)
+    .then(() => {
+      fetchProjectData()
+    })
+    .catch(() => {
+      setMessage('Usuário não está participando do evento ou já possui um projeto!')
+      setLoading(false)
     })
   }
 
@@ -224,7 +238,8 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
       setTaskStatus,
       saveLink,
       saveBusinessModel,
-      businessModel
+      businessModel,
+      inviteMember,
     }}>
       {children}
     </ProjectContext.Provider>

@@ -1,8 +1,9 @@
-import styled from 'styled-components';
-
+import styled, { css } from 'styled-components';
+import { ifProp, ifNotProp } from 'styled-tools';
 
 interface Props {
   color: string;
+  disabled?: boolean;
 }
 
 const Container = styled.div`
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
   margin: 30px 0;
   display: flex;
   align-items: center;
+  position: relative;
 `;
 
 const Input = styled.input`
@@ -40,12 +42,27 @@ const Button = styled.button<Props>`
   margin-left: 30px;
   padding: 5px;
   transition: all ease 0.8s;
-  cursor: pointer;
 
-  :hover {
-    opacity: 0.7;
-    transform: scale(1.08);
-  }
+  ${ifProp('disabled', css`
+    opacity: 0.4;
+  `)}
+
+  ${ifNotProp('disabled', css`
+    :hover {
+      cursor: pointer;
+      opacity: 0.7;
+      transform: scale(1.08);
+    }
+  `)}
+`;
+
+const Message = styled.span`
+  display: block;
+  color: ${props => props.theme.colors.danger};
+  font-size: ${props => props.theme.fontSizes.small};
+  position: absolute;
+  left: 0;
+  bottom: -20px;
 `;
 
 const BtnText = styled.span`
@@ -70,6 +87,7 @@ const Item = styled.li`
   margin-right: 30px;
   margin-bottom: 30px;
   position: relative;
+  width: 280px;
 `;
 
 const Initials = styled.span`
@@ -92,8 +110,7 @@ const Initials = styled.span`
 const WrapperTitle = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 `;
 
 const ItemTitle = styled.span`
@@ -114,15 +131,9 @@ const Email = styled.span`
   display: block;
 `;
 
-const Skills = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 300px;
-`;
-
-const Skill = styled.li`
-  margin-right: 10px;
-  margin-bottom: 5px;
+const Text = styled.span`
+  margin-left: 10px;
+  display: block;
   color: ${props => props.theme.colors.text.opaqueInDark};
   font-size: ${props => props.theme.fontSizes.regular};
 `;
@@ -130,9 +141,8 @@ const Skill = styled.li`
 export default {
   Container,
   Title,
-  Skill,
   Email,
-  Skills,
+  Text,
   ItemTitle,
   WrapperTitle,
   Initials,
@@ -143,4 +153,5 @@ export default {
   Input,
   Wrapper,
   Name,
+  Message,
 };

@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import UsersService from 'App/Services/UsersService'
 import UserValidator from 'App/Validators/UserValidator'
-import User from 'App/Models/User'
+import { CreateUserDto } from 'App/Dtos/UserDto'
 
 export default class UsersController {
   private userService = new UsersService()
@@ -11,7 +11,7 @@ export default class UsersController {
   }
 
   public async store ({ request }: HttpContextContract) {
-    const data = await request.validate(UserValidator)
-    return await this.userService.saveOne(data as User)
+    const data: CreateUserDto = await request.validate(UserValidator)
+    return await this.userService.saveOne(data)
   }
 }

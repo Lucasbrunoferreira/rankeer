@@ -12,8 +12,8 @@ export default class EventsService {
     return await Event.findOrFail(eventId)
   }
 
-  public async getAllByUser (userId: number): Promise<Event[]> {
-    return await Event.query().where('userId', userId)
+  public async getAll (): Promise<Event[]> {
+    return await Event.all()
   }
 
   public async getAllWillHappen (): Promise<Event[]> {

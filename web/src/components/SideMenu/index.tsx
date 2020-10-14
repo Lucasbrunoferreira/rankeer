@@ -55,7 +55,7 @@ const SideMenu: React.FC = () => {
 
   const backToEvents = () => {
     clearCurrentEvent();
-    history.replace('/events');
+    history.replace('/eventos');
   }
 
   const handleSelectedRoute = (route: Route) => {

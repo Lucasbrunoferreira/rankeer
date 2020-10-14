@@ -5,24 +5,33 @@ import Task from 'App/Models/Task'
 import Tag from 'App/Models/Tag'
 import { BusinessModelDto } from 'App/Dtos/BusinessDto'
 import BusinessModel from 'App/Models/BusinessModel'
+import User from 'App/Models/User'
 
 export default class ProjectService {
   public async saveOne (data: CreateProjectDto, userId: number): Promise<Project> {
-    return await Project.create({ ...data, userId, color: '#2980b9' })
+    const project =  await Project.create({ ...data, userId, color: '#2980b9' })
+    const user = await User.findOrFail(userId)
+    await project.related('members').save(user)
+    return project
   }
 
-  public async getOneByOwner (userId: number, eventId: number): Promise<Project> {
+  public async getEventParticipant (userId: number, eventId: number): Promise<Project> {
     const project = await Project.query()
+      .preload('members', (members) => members.wherePivot('user_id', userId).preload('participantInfo'))
+      .andWhere('eventId', eventId)
+      .firstOrFail()
+
+
+    return await Project.query()
+      .preload('members', (members) => members.preload('participantInfo'))
       .preload('businessModel')
       .preload('owner')
       .preload('links')
       .preload('tags')
       .preload('tasks')
-      .where('userId', userId)
-      .andWhere('eventId', eventId)
+      .where('id', project.id)
       .firstOrFail()
 
-    return project
   }
 
   public async alreadyInProject (userId: number, eventId: number): Promise<boolean> {
@@ -127,5 +136,10 @@ export default class ProjectService {
     } else {
       await BusinessModel.create({ projectId, ...data })
     }
+  }
+
+  public async inviteMemberToProject(projectId: number, user: User) {
+    const project = await Project.findOrFail(projectId)
+    return await project.related('members').save(user)
   }
 }

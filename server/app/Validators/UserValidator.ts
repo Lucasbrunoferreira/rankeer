@@ -12,6 +12,8 @@ export default class UserValidator {
       rules.unique({ table: 'users', column: 'email' }),
     ]),
     password: schema.string(),
+    skill: schema.string.optional(),
+    office: schema.string.optional()
   })
 
   public cacheKey = this.ctx.routeKey

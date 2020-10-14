@@ -14,3 +14,5 @@ Route.put('project/task/:taskId/done', 'ProjectsController.setTaskDone').middlew
 Route.put('project/task/:taskId/unDone', 'ProjectsController.setTaskUndone').middleware('auth')
 
 Route.post('project/:projectId/businessModel', 'ProjectsController.saveBusinessModel').middleware('auth')
+
+Route.post('project/:projectId/invite', 'ProjectsController.inviteUser').middleware('auth')

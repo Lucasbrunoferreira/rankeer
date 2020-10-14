@@ -1,4 +1,5 @@
 import { EventStatus } from 'helpers/enums/EventStatus';
+import { Member } from './Member';
 import { User } from './User'
 
 export interface Event {
@@ -8,6 +9,6 @@ export interface Event {
   status: EventStatus;
   userId: number;
   user: User;
-  participants: User[];
+  members: Member[];
   updatedAt: string;
 }

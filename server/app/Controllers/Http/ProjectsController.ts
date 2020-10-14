@@ -8,14 +8,17 @@ import { TaskValidator } from 'App/Validators/TaskValidator'
 import { TagValidator } from 'App/Validators/TagValidator'
 import { BusinessModelDto } from 'App/Dtos/BusinessDto'
 import { BusinessModelValidator } from 'App/Validators/BusinessModelValidator'
+import InviteMemberValidator from 'App/Validators/InviteMemberValidator'
+import UsersService from 'App/Services/UsersService'
 
 export default class ProjectController {
   private projectService = new ProjectService()
+  private userService = new UsersService()
 
   public async index ({ auth, request }: HttpContextContract) {
     const { id } = await useLoggedUser(auth)
     const eventId = request.input('eventId')
-    return this.projectService.getOneByOwner(id, eventId)
+    return this.projectService.getEventParticipant(id, eventId)
   }
 
   public async store ({ request, response, auth }: HttpContextContract) {
@@ -70,5 +73,11 @@ export default class ProjectController {
   public async saveBusinessModel ({ request, params }: HttpContextContract) {
     const data: BusinessModelDto = await request.validate(BusinessModelValidator)
     return await this.projectService.saveBusinessModelInProject(params.projectId, data)
+  }
+
+  public async inviteUser ({ request, params }: HttpContextContract) {
+    const { email } = await request.validate(InviteMemberValidator)
+    const userToInvite = await this.userService.getOneByEmail(email)
+    return await this.projectService.inviteMemberToProject(params.projectId, userToInvite)
   }
 }
