@@ -9,12 +9,12 @@ export class BusinessModelValidator {
     partnerships: schema.string.optional(),
     activities: schema.string.optional(),
     resources: schema.string.optional(),
-    valueOffering: schema.string.optional(),
+    value_offering: schema.string.optional(),
     relationship: schema.string.optional(),
     channels: schema.string.optional(),
-    customerSegment: schema.string.optional(),
-    costStructure: schema.string.optional(),
-    revenueSources: schema.string.optional(),
+    customer_segment: schema.string.optional(),
+    cost_structure: schema.string.optional(),
+    revenue_sources: schema.string.optional(),
   })
 
   public cacheKey = this.ctx.routeKey

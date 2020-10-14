@@ -10,15 +10,21 @@ import { BusinessModelDto } from 'App/Dtos/BusinessDto'
 import { BusinessModelValidator } from 'App/Validators/BusinessModelValidator'
 import InviteMemberValidator from 'App/Validators/InviteMemberValidator'
 import UsersService from 'App/Services/UsersService'
+import WebSocket from 'App/Services/WebSocket'
 
 export default class ProjectController {
   private projectService = new ProjectService()
   private userService = new UsersService()
 
-  public async index ({ auth, request }: HttpContextContract) {
+  public async index ({ auth, request, response }: HttpContextContract) {
     const { id } = await useLoggedUser(auth)
     const eventId = request.input('eventId')
-    return this.projectService.getEventParticipant(id, eventId)
+
+    const project =  await this.projectService.getProjectParticipant(id, eventId)
+
+    if (!project) response.badRequest({ message: 'Este usuário não possui projeto neste evento!' })
+
+    return project
   }
 
   public async store ({ request, response, auth }: HttpContextContract) {
@@ -36,48 +42,67 @@ export default class ProjectController {
 
   public async update ({ request, params }: HttpContextContract) {
     const data: UpdateProjectDto = await request.validate(UpdateProjectValidator)
-
-    return await this.projectService.updatedProject(data, params.id)
+    const result = await this.projectService.updatedProject(data, params.id)
+    this.emitProject(params.id)
+    return result
   }
 
   public async saveLink ({ request, params }: HttpContextContract) {
     const { description } = await request.validate(LinkValidator)
-
-    return await this.projectService.saveLinkInProject(description, params.projectId)
+    const result = await this.projectService.saveLinkInProject(description, params.projectId)
+    this.emitProject(params.projectId)
+    return result
   }
 
   public async saveTask ({ request, params }: HttpContextContract) {
     const { description } = await request.validate(TaskValidator)
-
-    return await this.projectService.saveTaskInProject(description, params.projectId)
+    const result = await this.projectService.saveTaskInProject(description, params.projectId)
+    this.emitProject(params.projectId)
+    return result
   }
 
   public async saveTag ({ request, params }: HttpContextContract) {
     const { description } = await request.validate(TagValidator)
-
-    return await this.projectService.saveTagInProject(description, params.projectId)
+    const result = await this.projectService.saveTagInProject(description, params.projectId)
+    this.emitProject(params.projectId)
+    return result
   }
 
-  public async removeTag ({ params }: HttpContextContract) {
-    return await this.projectService.reemoveTagOfProject(params.tagId)
+  public async removeTag ({ params, response }: HttpContextContract) {
+    const projectId = await this.projectService.reemoveTagOfProject(params.tagId)
+    this.emitProject(projectId)
+    return response.ok({ success: true })
   }
 
-  public async setTaskDone ({ params }: HttpContextContract) {
-    return await this.projectService.setTaskStatus(params.taskId, true)
+  public async setTaskDone ({ params, response }: HttpContextContract) {
+    const projectId = await this.projectService.setTaskStatus(params.taskId, true)
+    this.emitProject(projectId)
+    return response.ok({ success: true })
   }
 
-  public async setTaskUndone ({ params }: HttpContextContract) {
-    return await this.projectService.setTaskStatus(params.taskId, false)
+  public async setTaskUndone ({ params, response }: HttpContextContract) {
+    const projectId = await this.projectService.setTaskStatus(params.taskId, false)
+    this.emitProject(projectId)
+    return response.ok({ success: true })
   }
 
   public async saveBusinessModel ({ request, params }: HttpContextContract) {
     const data: BusinessModelDto = await request.validate(BusinessModelValidator)
-    return await this.projectService.saveBusinessModelInProject(params.projectId, data)
+    const result = await this.projectService.saveBusinessModelInProject(params.projectId, data)
+    this.emitProject(params.projectId)
+    return result
   }
 
   public async inviteUser ({ request, params }: HttpContextContract) {
     const { email } = await request.validate(InviteMemberValidator)
     const userToInvite = await this.userService.getOneByEmail(email)
-    return await this.projectService.inviteMemberToProject(params.projectId, userToInvite)
+    const result = await this.projectService.inviteMemberToProject(params.projectId, userToInvite)
+    this.emitProject(params.projectId)
+    return result
+  }
+
+  public emitProject = async (projectId: number) => {
+    const project = await this.projectService.getProjectByID(projectId)
+    WebSocket.io.emit(`@PROJECT-${projectId}`, project)
   }
 }

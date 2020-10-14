@@ -32,10 +32,14 @@
     "@adonisjs/core": "^5.0.0-preview-rc-1.9",
     "@adonisjs/fold": "^6.3.5",
     "@adonisjs/lucid": "^8.2.2",
+    "@types/lodash": "^4.14.162",
+    "@types/socket.io": "^2.1.11",
+    "lodash": "^4.17.20",
     "mkdirp": "^1.0.4",
     "pg": "^8.3.0",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
+    "socket.io": "^2.3.0",
     "source-map-support": "^0.5.19",
     "sqlite3": "^5.0.0"
   }

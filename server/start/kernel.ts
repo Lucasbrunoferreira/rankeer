@@ -5,6 +5,5 @@ Server.middleware.register([
 ])
 
 Server.middleware.registerNamed({
-  auth: 'App/Middleware/Auth',
-  onlyOwner: 'App/Middleware/OnlyOwner',
+  auth: 'App/Middleware/Auth'
 })

@@ -24,7 +24,7 @@ export default class BusinessModel extends BaseModel {
   public resources: string
 
   @column({ columnName: 'value_offering' })
-  public valueOffering: string
+  public value_offering: string
 
   @column()
   public relationship: string
@@ -33,11 +33,11 @@ export default class BusinessModel extends BaseModel {
   public channels: string
 
   @column({ columnName: 'customer_segment' })
-  public customerSegment: string
+  public customer_segment: string
 
   @column({ columnName: 'cost_structure' })
-  public costStructure: string
+  public cost_structure: string
 
   @column({ columnName: 'revenue_sources' })
-  public revenueSources: string
+  public revenue_sources: string
 }

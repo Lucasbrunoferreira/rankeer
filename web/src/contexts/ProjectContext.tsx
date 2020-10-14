@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User } from 'interfaces/User';
 import { Task } from 'interfaces/Task';
 import { theme } from 'theme'
@@ -9,6 +9,7 @@ import { Tag } from 'interfaces/Tag';
 import { Link } from 'interfaces/Link';
 import { BusinessModel } from 'interfaces/BusinessModel';
 import { Member } from 'interfaces/Member';
+import { getSocketClient } from 'services/socket';
 
 export interface ProjectCtx {
   haveProject: boolean;
@@ -83,6 +84,7 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
 
 
   const currentEvent = getCurrentEvent();
+  const socketInstance = getSocketClient()
 
   const { setMessage } = useFlashMessage()
 
@@ -213,6 +215,14 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
       setLoading(false)
     })
   }
+
+  useEffect(() => {
+    if (projectId) {
+      socketInstance.on(`@PROJECT-${projectId}`, (data: any) => setProjectData(data))
+      console.info(`📡 Listening project id: ${projectId}`)
+    }
+    // eslint-disable-next-line
+  }, [projectId])
 
   return (
     <ProjectContext.Provider value={{

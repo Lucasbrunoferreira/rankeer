@@ -6,6 +6,7 @@ import Tag from 'App/Models/Tag'
 import { BusinessModelDto } from 'App/Dtos/BusinessDto'
 import BusinessModel from 'App/Models/BusinessModel'
 import User from 'App/Models/User'
+import { find } from 'lodash'
 
 export default class ProjectService {
   public async saveOne (data: CreateProjectDto, userId: number): Promise<Project> {
@@ -15,13 +16,21 @@ export default class ProjectService {
     return project
   }
 
-  public async getEventParticipant (userId: number, eventId: number): Promise<Project> {
-    const project = await Project.query()
-      .preload('members', (members) => members.wherePivot('user_id', userId).preload('participantInfo'))
-      .andWhere('eventId', eventId)
-      .firstOrFail()
+  public async getProjectParticipant (userId: number, eventId: number): Promise<Project> {
+    const projects = await Project.query()
+      .preload('members', (members) => members.preload('participantInfo'))
+      .preload('businessModel')
+      .preload('owner')
+      .preload('links')
+      .preload('tags')
+      .preload('tasks')
+      .where('event_id', eventId)
+      .exec()
 
+    return projects.filter((project) => find(project.members, { id: userId }))[0]
+  }
 
+  public async getProjectByID (projectId: number): Promise<Project> {
     return await Project.query()
       .preload('members', (members) => members.preload('participantInfo'))
       .preload('businessModel')
@@ -29,9 +38,8 @@ export default class ProjectService {
       .preload('links')
       .preload('tags')
       .preload('tasks')
-      .where('id', project.id)
+      .where('id', projectId)
       .firstOrFail()
-
   }
 
   public async alreadyInProject (userId: number, eventId: number): Promise<boolean> {
@@ -87,26 +95,28 @@ export default class ProjectService {
     return Tag.query().where('projectId', projectId).exec()
   }
 
-  public async setTaskStatus (taskId: number, status: boolean): Promise<void> {
-    await Task.updateOrCreate({ id: taskId }, { isDone: status })
+  public async setTaskStatus (taskId: number, status: boolean): Promise<number> {
+    const { projectId } = await Task.updateOrCreate({ id: taskId }, { isDone: status })
+    return projectId
   }
 
-  public async reemoveTagOfProject (taskId: number): Promise<void> {
+  public async reemoveTagOfProject (taskId: number): Promise<number> {
     const tag = await Tag.findOrFail(taskId)
     await tag.delete()
+    return tag.projectId
   }
 
   public async saveBusinessModelInProject (projectId: number, data: BusinessModelDto): Promise<void> {
     let {
       activities,
       channels,
-      costStructure,
-      customerSegment,
+      cost_structure,
+      customer_segment,
       partnerships,
       relationship,
       resources,
-      valueOffering,
-      revenueSources,
+      value_offering,
+      revenue_sources,
     } = data
 
     const businessModel = await BusinessModel.findBy('projectId', projectId)
@@ -114,24 +124,24 @@ export default class ProjectService {
     if (businessModel) {
       activities = activities || businessModel.activities
       channels = channels || businessModel.channels
-      costStructure = costStructure || businessModel.costStructure
-      customerSegment = customerSegment || businessModel.customerSegment
+      cost_structure = cost_structure || businessModel.cost_structure
+      customer_segment = customer_segment || businessModel.customer_segment
       partnerships = partnerships || businessModel.partnerships
       relationship = relationship || businessModel.relationship
       resources = resources || businessModel.resources
-      valueOffering = valueOffering || businessModel.valueOffering
-      revenueSources = revenueSources || businessModel.revenueSources
+      value_offering = value_offering || businessModel.value_offering
+      revenue_sources = revenue_sources || businessModel.revenue_sources
 
       await BusinessModel.updateOrCreate({ projectId }, {
         activities,
         channels,
-        costStructure,
-        customerSegment,
+        cost_structure,
+        customer_segment,
         partnerships,
         relationship,
         resources,
-        valueOffering,
-        revenueSources,
+        value_offering,
+        revenue_sources,
       })
     } else {
       await BusinessModel.create({ projectId, ...data })
