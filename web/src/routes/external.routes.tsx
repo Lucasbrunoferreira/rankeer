@@ -10,7 +10,7 @@ const ExternalRoutes = () => {
     <Switch>
       <Route exact path="/login" component={Login} />
 
-      <Route exact path="/ranking/:id" component={Ranking} />
+      <Route exact path="/ranking/:eventId" component={Ranking} />
 
       <Redirect exact from="/" to={getToken() ? '/eventos' : '/login' } />
     </Switch>

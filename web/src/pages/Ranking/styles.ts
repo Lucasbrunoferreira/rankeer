@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { prop } from 'styled-tools';
 
 const Container = styled.div`
   max-width: 100%;
@@ -84,7 +85,7 @@ const Color = styled.span`
   width: 20px;
   height: 20px;
   border-radius: 20px;
-  background-color: #fff;
+  background-color: ${prop('color')};
 `;
 
 const Name = styled.span`
@@ -105,6 +106,16 @@ const Details = styled.div`
 
 const Punctuation = styled.span`
   display: block;
+  color: ${props => props.theme.colors.text.inDark};
+  font-size: ${props => props.theme.fontSizes.big};
+`;
+
+const Empty = styled.span`
+  display: block;
+  color: ${props => props.theme.colors.text.inDark};
+  font-size: ${props => props.theme.fontSizes.big};
+  text-align: center;
+  margin-top: 200px;
 `;
 
 export default {
@@ -124,4 +135,5 @@ export default {
   Blob,
   Header,
   Title,
+  Empty,
 };

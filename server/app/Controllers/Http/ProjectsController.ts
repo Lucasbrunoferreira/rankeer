@@ -20,9 +20,11 @@ export default class ProjectController {
     const { id } = await useLoggedUser(auth)
     const eventId = request.input('eventId')
 
-    const project =  await this.projectService.getProjectParticipant(id, eventId)
+    const project = await this.projectService.getProjectParticipant(id, eventId)
 
-    if (!project) response.badRequest({ message: 'Este usuário não possui projeto neste evento!' })
+    if (!project) {
+      response.badRequest({ message: 'Este usuário não possui projeto neste evento!' })
+    }
 
     return project
   }
