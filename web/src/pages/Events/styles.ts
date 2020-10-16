@@ -7,6 +7,10 @@ interface EventItem {
   isActive?: boolean;
 }
 
+interface ButtonProps {
+  disabled: boolean;
+}
+
 const Container = styled.div`
   display: block;
   padding: 3% 5%;
@@ -144,13 +148,46 @@ const Input = styled.input`
   font-family: sans-serif !important;
   border-radius: 4px;
   padding: 5px;
-  margin-top: 20px;
   border: none;
   outline: none;
 `;
 
+const WrapperCode = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const Button = styled.button<ButtonProps>`
+  width: 110px;
+  color: ${props => props.theme.colors.text.inDark};
+  font-size: ${props => props.theme.fontSizes.regular};
+  margin-left: 20px;
+  border-radius: 8px;
+  border: none;
+  background: ${props => props.theme.colors.primary};
+  transition: all ease 0.7s;
+  cursor: pointer;
+  height: 35px;
+
+  :hover {
+    background: ${props => props.theme.colors.secundary};
+  }
+
+  ${ifProp("disabled", css`
+    opacity: 0.5;
+    cursor: default;
+    border: 1px solid ${props => props.theme.colors.background.secundary};
+
+      :hover {
+        background: ${props => props.theme.colors.primary};
+      }
+  `)}
+`;
+
 export default {
   Container,
+  WrapperCode,
   Title,
   EventsList,
   EventItem,
@@ -162,4 +199,5 @@ export default {
   Input,
   Wrapper,
   SubTitle,
+  Button,
 };

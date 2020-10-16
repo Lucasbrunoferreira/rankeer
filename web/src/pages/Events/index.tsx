@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Styles from './styles';
 import useFlashMessage from 'hooks/useFlashMessage'
 import InternLayout from 'layouts/Internal';
-import eventService from 'services/events';
 import { Event } from 'interfaces/Event';
 import { EventStatus } from 'helpers/enums/EventStatus';
 import { format, isSameDay, isAfter } from 'date-fns'
@@ -10,8 +9,9 @@ import { ptBR } from 'date-fns/locale';
 import { sortBy } from 'lodash';
 import { setCurrentEvent } from 'helpers/localStorage/currentEvent';
 import { useHistory } from 'react-router-dom';
-import projectService from 'services/project';
 import { Loading } from 'components';
+import projectService from 'services/project';
+import eventService from 'services/events';
 
 const EventsPage: React.FC = () => {
   const { setMessage } = useFlashMessage();
@@ -22,32 +22,35 @@ const EventsPage: React.FC = () => {
 
   const [selectedStatus, setSelectedStatus] = useState<number[]>([1, 2, 3]);
   const [isLoading, setLoading] = useState(true);
+  const [eventCode, setEventCode] = useState<string>(null);
+
+
+  const formatStatusInEvent = (listOfEvents: Event[]) => {
+    return sortBy(listOfEvents.map((event) => {
+      event.status = renderStatus(event.date);
+      return event;
+    }), ['status'])
+  }
+
+  const fetchData = () => {
+    setLoading(true)
+
+    eventService.eventsParticipants()
+      .then((result) => {
+        const formattedEvents = formatStatusInEvent(result?.data);
+        setEvents(formattedEvents);
+        setFiltered(formattedEvents);
+      })
+      .catch((err) => {
+        setMessage('Algo inesperado ao buscar os eventos.')
+      })
+      .finally(() => setLoading(false))
+  }
 
   useEffect(() => {
-    const formatStatusInEvent = (listOfEvents: Event[]) => {
-      return sortBy(listOfEvents.map((event) => {
-        event.status = renderStatus(event.date);
-        return event;
-      }), ['status'])
-    }
-
-    const fetchData = () => {
-      setLoading(true)
-
-      eventService.eventsParticipants()
-        .then((result) => {
-          const formattedEvents = formatStatusInEvent(result?.data);
-          setEvents(formattedEvents);
-          setFiltered(formattedEvents);
-        })
-        .catch((err) => {
-          setMessage('Algo inesperado ao buscar os eventos.')
-        })
-        .finally(() => setLoading(false))
-    }
-
     fetchData();
-  }, [setMessage,]);
+    // eslint-disable-next-line
+  }, [setMessage]);
 
 
   useEffect(() => {
@@ -76,16 +79,46 @@ const EventsPage: React.FC = () => {
   const handleSelecteEvent = (event: Event) => {
     if (event.status === EventStatus.INPROGRESS) {
       setLoading(true)
-      setCurrentEvent(event);
-      projectService
-        .getProject(event.id)
+
+      eventService.getEventById(event.id)
         .then((result) => {
-          history.replace('/home/meu-projeto', result.data);
+          setCurrentEvent(result.data)
+
+          if (result.data.role === 'evalutor') {
+            history.replace(`/ranking/${event.id}`)
+          } else if (result.data.role === 'owner') {
+            history.replace('/home/meu-evento')
+          } else {
+            projectService
+              .getProject(event.id)
+              .then((result) => {
+                console.log(result)
+                history.replace('/home/meu-projeto', result.data);
+              })
+              .catch(() => {
+                history.replace('/novo-projeto');
+              })
+          }
         })
         .catch(() => {
-          history.replace('/novo-projeto');
+          setMessage('Algo inesperado ao carregar o evento selecionado.')
+          setLoading(false)
         })
     }
+  }
+
+  const handleParticipateByCode = () => {
+    setLoading(true)
+
+    eventService
+      .participateByCode(eventCode)
+      .then(() => {
+        fetchData()
+      })
+      .catch(() => {
+        setMessage('O Código do pojeto não é válido!')
+        setLoading(false)
+      })
   }
 
   return (
@@ -108,6 +141,10 @@ const EventsPage: React.FC = () => {
               <Styles.EventName>{event.name}</Styles.EventName>
 
               <Styles.Text>
+                <strong>Código:</strong> {event.code}
+              </Styles.Text>
+
+              <Styles.Text>
                 <strong>Data do evento:</strong> {format(new Date(event.date), "dd 'de' MMMM", { locale: ptBR })}
               </Styles.Text>
 
@@ -119,7 +156,11 @@ const EventsPage: React.FC = () => {
         <Styles.Wrapper>
           <Styles.SubTitle>Você possui o código para algum evento?</Styles.SubTitle>
 
-          <Styles.Input placeholder="Ex: #FD15458" />
+          <Styles.WrapperCode>
+            <Styles.Input onChange={(e) => setEventCode(e.target.value)} placeholder="Ex: #FD15458" />
+
+            <Styles.Button onClick={() => handleParticipateByCode()} disabled={!eventCode}>participar</Styles.Button>
+          </Styles.WrapperCode>
         </Styles.Wrapper>
       </Styles.Container>
     </InternLayout>

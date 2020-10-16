@@ -1,12 +1,12 @@
 import React from 'react';
 import Styles from './styles';
 
-const MyEvents: React.FC = () => {
+const MyEvent: React.FC = () => {
   return (
     <Styles.Container>
-      <h1>Meus Eventos</h1>
+      <h1>Meu Evento</h1>
     </Styles.Container>
   );
 };
 
-export default MyEvents;
+export default MyEvent;

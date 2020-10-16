@@ -1,11 +1,11 @@
 import { Event } from 'interfaces/Event';
-import { getCurrentUser } from './currentUser';
 
 const STORAGE_KEY = '@RANKEER:EVENT'
 
 interface CurrentEvent {
   id: number;
   name: string;
+  role: 'owner' | 'participant' | 'evalutor';
   isAdmin: boolean;
 }
 
@@ -18,8 +18,7 @@ const getCurrentEvent = (): CurrentEvent | null => {
 };
 
 const setCurrentEvent = (event: Event) => {
-  const currentUser = getCurrentUser();
-  const currentEvent: CurrentEvent = { name: event.name, id: event.id, isAdmin: currentUser.id === event.userId }
+  const currentEvent: CurrentEvent = { name: event.name, id: event.id, role: event.role, isAdmin: event.role === 'owner' }
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(currentEvent));
 };
 

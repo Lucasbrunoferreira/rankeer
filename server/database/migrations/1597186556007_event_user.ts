@@ -5,9 +5,11 @@ export default class EventUsers extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
       table.integer('user_id').unsigned().references('id').inTable('users')
       table.integer('event_id').unsigned().references('id').inTable('events')
+      table.foreign('user_id')
+      table.foreign('event_id')
+      table.string('role').notNullable()
     })
   }
 

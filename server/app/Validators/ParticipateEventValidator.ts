@@ -1,19 +1,17 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
 
-export default class InviteEventValidator {
+export default class ParticipateEventValidator {
   constructor (private ctx: HttpContextContract) {
   }
 
   public schema = schema.create({
-    userId: schema.number(),
-    eventId: schema.number(),
+    code: schema.string(),
   })
 
   public cacheKey = this.ctx.routeKey
 
   public messages = {
-    'eventId.required': 'Por favor, informe o evento.',
-    'userId.required': 'Por favor, informe o usuário para enviar o convite.',
+    'code.required': 'Por favor, informe o código do evento.',
   }
 }

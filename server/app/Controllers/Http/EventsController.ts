@@ -6,13 +6,15 @@ import { useLoggedUser } from 'App/Helpers/loggedUser'
 import { InviteEventDto } from 'App/Dtos/InviteEventDto'
 import InviteEventValidator from 'App/Validators/InviteEventValidator'
 import UsersService from 'App/Services/UsersService'
+import ParticipateEventValidator from 'App/Validators/ParticipateEventValidator'
 
 export default class EventsController {
   private eventsService = new EventsService()
   private userService = new UsersService()
 
-  public async index () {
-    return this.eventsService.getAll()
+  public async index ({ auth }: HttpContextContract) {
+    const { id } = await useLoggedUser(auth)
+    return this.eventsService.getAllByUser(id)
   }
 
   public async store ({ request, auth }: HttpContextContract) {
@@ -25,18 +27,44 @@ export default class EventsController {
     return this.eventsService.getAllWillHappen()
   }
 
-  public async invite ({ request, response }: HttpContextContract) {
+  public async getEventById ({ params, auth }: HttpContextContract) {
+    const { id } = await useLoggedUser(auth)
+    return this.eventsService.getEventAndRole(params.eventId, id)
+  }
+
+  public async participateEventByCode ({ auth, request }: HttpContextContract) {
+    const { id } = await useLoggedUser(auth)
+    const { code } = await request.validate(ParticipateEventValidator)
+    return this.eventsService.participateEventByCode(code, id)
+  }
+
+  public async inviteParticipant ({ request, response }: HttpContextContract) {
     const data: InviteEventDto = await request.validate(InviteEventValidator)
 
     const event = await this.eventsService.getOneById(data.eventId)
-    const participant = await this.userService.getOneById(data.participantId)
+    const participant = await this.userService.getOneById(data.userId)
 
-    const isAlreadyParticipant = await this.eventsService.isAlreadyParticipant(data.eventId, data.participantId)
+    const isAlreadyInProject = await this.eventsService.isAlreadyInProject(data.eventId, data.userId)
 
-    if (isAlreadyParticipant) {
+    if (isAlreadyInProject) {
       return response.badRequest({ message: `O usuário ${participant.name} já esta participando do evento ${event.name}!` })
     }
 
     return this.eventsService.setParticipant(event, participant)
+  }
+
+  public async inviteEvaluator ({ request, response }: HttpContextContract) {
+    const data: InviteEventDto = await request.validate(InviteEventValidator)
+
+    const event = await this.eventsService.getOneById(data.eventId)
+    const evaluator = await this.userService.getOneById(data.userId)
+
+    const isAlreadyInProject = await this.eventsService.isAlreadyInProject(data.eventId, data.userId)
+
+    if (isAlreadyInProject) {
+      return response.badRequest({ message: `O usuário ${evaluator.name} já esta participando do evento ${event.name}!` })
+    }
+
+    return this.eventsService.setEvaluator(event, evaluator)
   }
 }

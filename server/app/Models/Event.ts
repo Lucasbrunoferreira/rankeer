@@ -13,6 +13,9 @@ export default class Event extends BaseModel {
   public name: string
 
   @column()
+  public code: string
+
+  @column()
   public date: Date
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })

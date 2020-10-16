@@ -6,7 +6,7 @@ import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 import MyProject from './MyProject';
 import BusinessModel from './BusinessModel ';
 import Team from './Team';
-import MyEvents from './MyEvents';
+import MyEvent from './MyEvent';
 
 const HomePage: React.FC = () => {
   const history = useHistory();
@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
 
         <Route path={`${path}/equipe`} component={Team} />
 
-        <Route path={`${path}/meus-eventos`} component={MyEvents} />
+        <Route path={`${path}/meu-evento`} component={MyEvent} />
       </Switch>
     </InternalLayout>
   );

@@ -44,9 +44,9 @@ const SideMenu: React.FC = () => {
       role: 'participant'
     },
     {
-      path: '/home/meus-eventos',
+      path: '/home/meu-evento',
       icon: ListIcon,
-      name: 'Meus Eventos',
+      name: 'Meu Evento',
       role: 'admin',
     },
   ]
