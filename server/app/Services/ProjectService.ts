@@ -10,7 +10,7 @@ import { find } from 'lodash'
 
 export default class ProjectService {
   public async saveOne (data: CreateProjectDto, userId: number): Promise<Project> {
-    const project =  await Project.create({ ...data, userId, color: '#2980b9' })
+    const project = await Project.create({ ...data, userId, color: '#2980b9', code: this.makeProjectCode(data.name) })
     const user = await User.findOrFail(userId)
     await project.related('members').save(user)
     return project
@@ -148,8 +148,13 @@ export default class ProjectService {
     }
   }
 
-  public async inviteMemberToProject(projectId: number, user: User) {
+  public async inviteMemberToProject (projectId: number, user: User) {
     const project = await Project.findOrFail(projectId)
     return await project.related('members').save(user)
+  }
+
+  public makeProjectCode (projectName: string): string {
+    const randomString = Math.random().toString(36).slice(8).toLocaleUpperCase()
+    return`#${projectName.slice(0, 4).replace(/\s/g, '').toLocaleUpperCase()}${randomString}`
   }
 }

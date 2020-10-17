@@ -42,6 +42,9 @@ export default class Project extends BaseModel {
   @column()
   public color: string
 
+  @column()
+  public code: string
+
   @column({ columnName: 'impact_phrase' })
   public impactPhrase: string
 

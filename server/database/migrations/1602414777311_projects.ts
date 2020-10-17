@@ -14,6 +14,7 @@ export default class Projects extends BaseSchema {
       table.string('annotations', 500)
       table.string('color', 7)
       table.string('impact_phrase', 50)
+      table.string('code', 30)
     })
   }
 

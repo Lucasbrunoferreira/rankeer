@@ -13,7 +13,7 @@ export default class UserValidator {
     ]),
     password: schema.string(),
     skill: schema.string.optional(),
-    office: schema.string.optional()
+    office: schema.string.optional(),
   })
 
   public cacheKey = this.ctx.routeKey

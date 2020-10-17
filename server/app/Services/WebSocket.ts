@@ -12,5 +12,4 @@ class WebSocket {
   }
 }
 
-
 export default new WebSocket()

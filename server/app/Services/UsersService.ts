@@ -1,10 +1,10 @@
 import { CreateUserDto } from 'App/Dtos/UserDto'
-import ParticipantInfo from 'App/Models/ParticipantInfo';
+import ParticipantInfo from 'App/Models/ParticipantInfo'
 import User from 'App/Models/User'
 
 export default class UsersService {
   public async saveOne (data: CreateUserDto): Promise<User> {
-    const { email, name, password, office, skill } = data;
+    const { email, name, password, office, skill } = data
 
     const user = await User.create({ email, name, password })
 
