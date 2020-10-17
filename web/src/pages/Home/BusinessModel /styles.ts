@@ -74,9 +74,10 @@ const Box = styled.div<Props>`
 
 const TitleBox = styled.span`
   display: block;
-  color: ${({ theme }) => theme.colors.text.inDark};
+  color: ${({ theme }) => theme.colors.text.opaqueInDark};
   font-size: ${({ theme }) => theme.fontSizes.medium};
   margin-bottom: 20px;
+  font-weight: bold;
 `;
 
 const TextArea = styled.textarea`

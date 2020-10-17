@@ -72,10 +72,10 @@ const Ranking: React.FC = () => {
       {!results || results.length <= 0 ? (<Styles.Empty>As avaliações para este evento não estão disponíveis.</Styles.Empty>) : null}
 
       <Styles.List>
-        {results.map(result => (
+        {results.map((result, index) => (
         <Styles.Item key={result.id}>
           <Styles.Details>
-            <Styles.Position>1</Styles.Position>
+            <Styles.Position>{index + 1}</Styles.Position>
 
             <Styles.Color color={result.color} />
 

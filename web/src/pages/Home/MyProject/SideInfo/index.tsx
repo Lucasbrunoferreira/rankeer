@@ -6,7 +6,7 @@ import useProjectContext from 'hooks/useProjectContext';
 
 const SideInfo: React.FC = () => {
   const { colors } = useTheme();
-  const { color, tags, name, description, impactPhrase, updateProjectData, saveTag, removeTag } = useProjectContext();
+  const { color, tags, name, code, description, impactPhrase, updateProjectData, saveTag, removeTag } = useProjectContext();
 
   const [tagValue, setTagValue] = useState<string>('');
   const [visibleColorPicker, setVisibleColorPicler] = useState(false);
@@ -75,13 +75,21 @@ const SideInfo: React.FC = () => {
       </Styles.Infos>
 
       <Styles.Configs>
-        <Styles.SubTitle>Cor do Projeto:</Styles.SubTitle>
+        <Styles.ConfigItem>
+          <Styles.SubTitle>Cor do Projeto:</Styles.SubTitle>
 
-        <Styles.ColorCircle color={color} onClick={() => setVisibleColorPicler(!visibleColorPicker)} />
+          <Styles.ColorCircle color={color} onClick={() => setVisibleColorPicler(!visibleColorPicker)} />
 
-        <Styles.ListColors isVisible={visibleColorPicker}>
-          {colors.projectColors.map(c => <Styles.ColorCircle key={c} color={c} onClick={() => { updateProjectData({ color: c }); setVisibleColorPicler(false) }} />)}
-        </Styles.ListColors>
+          <Styles.ListColors isVisible={visibleColorPicker}>
+            {colors.projectColors.map(c => <Styles.ColorCircle key={c} color={c} onClick={() => { updateProjectData({ color: c }); setVisibleColorPicler(false) }} />)}
+          </Styles.ListColors>
+        </Styles.ConfigItem>
+
+        <Styles.ConfigItem>
+          <Styles.SubTitle>Código:</Styles.SubTitle>
+
+          <Styles.SubTitle>{ code }</Styles.SubTitle>
+        </Styles.ConfigItem>
       </Styles.Configs>
     </Styles.Container>
   );

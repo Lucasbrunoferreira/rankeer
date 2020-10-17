@@ -14,6 +14,7 @@ import { getSocketClient } from 'services/socket';
 export interface ProjectCtx {
   haveProject: boolean;
   name: string;
+  code: string;
   projectId: number;
   owner: User;
   description: string;
@@ -43,6 +44,7 @@ const ProjectContext = React.createContext<ProjectCtx>({
   projectId: null,
   owner: null,
   name: null,
+  code: null,
   description: null,
   impactPhrase: null,
   color: theme.colors.projectColors[0],
@@ -75,6 +77,7 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
   const [description, setDescription] = useState<string>(null);
   const [impactPhrase, setImpactPhrase] = useState<string>(null);
   const [color, setColor] = useState<string>('#27292c');
+  const [code, setCode] = useState<string>(null);
   const [tags, setTags] = useState<Tag[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [links, setLinks] = useState<Link[]>([]);
@@ -119,6 +122,7 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
     setAnnotations(project?.annotations)
     setBusinessModel(project?.businessModel)
     setMembers(project?.members)
+    setCode(project?.code)
   }
 
   const updateProjectData = (data: {
@@ -231,6 +235,7 @@ const ProjectProvider = ({ children }: { children: JSX.Element; }) => {
       updateProjectData,
       haveProject,
       name,
+      code,
       projectId,
       owner,
       description,

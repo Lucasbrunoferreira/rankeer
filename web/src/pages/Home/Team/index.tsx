@@ -9,7 +9,7 @@ import { ReactComponent as SkillIcon } from 'assets/svg/skill.svg'
 import { ReactComponent as OfficeIcon } from 'assets/svg/office.svg'
 
 const Team: React.FC = () => {
-  const { color, members, fetchProjectData, isLoading, inviteMember } = useProjectContext();
+  const { color, members, fetchProjectData, isLoading, inviteMember, code } = useProjectContext();
 
   const [email, setEmail] = useState({ value: null, isValid: true })
 
@@ -42,8 +42,10 @@ const Team: React.FC = () => {
 
       <Styles.Title>Minha Equipe</Styles.Title>
 
+      <Styles.SubTitle>Insira o e-mail do participante abaixo para convida-lo para seu projeto.</Styles.SubTitle>
+
       <Styles.Wrapper>
-        <Styles.Input spellCheck={false} onChange={(e) => handleInvite(e.target.value)} placeholder="Insira o e-mail para enviar um convite de equipe" />
+        <Styles.Input spellCheck={false} onChange={(e) => handleInvite(e.target.value)} placeholder="usuario@email.com" />
 
         <Styles.Button onClick={() => inviteMember(email.value)} color={color} disabled={!email.value || !email.isValid}>
           <SendIcon width={20} />
@@ -54,6 +56,8 @@ const Team: React.FC = () => {
           <Styles.Message>Informe um e-mail válido!</Styles.Message>
         ) : null}
       </Styles.Wrapper>
+
+      <Styles.SubTitle>Ou se preferir pode compartilhar o código do seu projeto: <b>{ code }</b> </Styles.SubTitle>
 
       <Styles.List>
         {members.map(member => (

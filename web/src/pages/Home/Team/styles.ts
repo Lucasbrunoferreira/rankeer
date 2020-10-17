@@ -16,8 +16,20 @@ const Title = styled.h1`
   font-size: ${props => props.theme.fontSizes.big};
 `;
 
+const SubTitle = styled.h3`
+  color: ${props => props.theme.colors.text.inDark};
+  font-size: ${props => props.theme.fontSizes.medium};
+  margin-top: 30px;
+
+  b {
+    font-weight: bold;
+    background-color: #333;
+    padding: 5px;
+  }
+`;
+
 const Wrapper = styled.div`
-  margin: 30px 0;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   position: relative;
@@ -148,6 +160,7 @@ export default {
   Initials,
   Item,
   List,
+  SubTitle,
   BtnText,
   Button,
   Input,

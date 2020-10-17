@@ -28,8 +28,15 @@ const Infos = styled.div`
 
 const Configs = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
+  flex-direction: column;
+`;
+
+const ConfigItem = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
 `;
 
 const Title = styled.input`
@@ -137,6 +144,7 @@ export default {
   Container,
   Title,
   Description,
+  ConfigItem,
   TagsList,
   Tag,
   InputTag,

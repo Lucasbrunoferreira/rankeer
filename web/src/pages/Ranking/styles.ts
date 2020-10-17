@@ -92,6 +92,7 @@ const Name = styled.span`
   color: ${props => props.theme.colors.text.inDark};
   font-size: ${props => props.theme.fontSizes.large};
   margin: 0px 80px 0px 10px;
+  min-width: 200px;
 `;
 
 const Phrase = styled.span`
