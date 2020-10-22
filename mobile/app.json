@@ -1,4 +1,5 @@
 {
+  "apiEndpoint": "http://46c97adf5704.ngrok.io",
   "expo": {
     "name": "Rankeer",
     "slug": "Rankeer",
