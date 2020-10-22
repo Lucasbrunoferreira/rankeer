@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 const Spotlight = styled.Text`
   color: ${({ theme }) => theme.colors.text.inDark};
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   margin-bottom: 15px;
 `;
@@ -15,7 +15,7 @@ const HyperTitle = styled.Text`
 
 const Title = styled.Text`
   color: ${({ theme }) => theme.colors.text.inDark};
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 20px;
 `;
 

@@ -1,28 +1,34 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Screen, Box, Divider, Button, Text } from '../../components';
-import styled from 'styled-components';
+import Styles from './styles';
+import { Image, TextInput } from 'react-native'
+import { useTheme } from 'styled-components';
 
 const Login: React.FC = () => {
+  const { colors } = useTheme();
+  const passwordInput = useRef<TextInput>(null);
+
+  const handleSubmit = () => {
+    console.log('submited!')
+  };
+
   return (
     <Screen.Wrapper>
-      <Text.HyperTitle>First Aid</Text.HyperTitle>
+      <Styles.Container>
+        <Styles.Logo source={require('../../assets/logo.png')} />
 
-      <Divider color="#e74c3c" />
+        <Text.Title>Avaliações de projetos na palma da sua mão.</Text.Title>
 
-      <Text.Title>Avaliações de projetos na palma da sua mão!</Text.Title>
+        <Styles.WrapperFields>
+          <Styles.Field keyboardType="email-address" placeholder="usuario@email.com" returnKeyType="next" onSubmitEditing={() => passwordInput?.current?.focus()} />
 
-      <Text.Spotlight>Olá, Lucas Bruno!</Text.Spotlight>
+          <Styles.Field secureTextEntry placeholder="senha" ref={passwordInput} onSubmitEditing={handleSubmit} />
+        </Styles.WrapperFields>
 
-      <Text.SubTitle>Selecione um projeto para ser avaliado:</Text.SubTitle>
-
-      <Box.Container color="#e74c3c">
-        <Box.Title>Hackthoberfest 2020</Box.Title>
-
-        <Box.SubTitle>Prestação de serviços em uma unica plataforma xablau mano eae cara</Box.SubTitle>
-      </Box.Container>
-
-      <Button title="xablau" color="#e74c3c" onPress={() => console.log('xablau')} />
-
+        <Button.Wrapper color={colors.primary} onPress={handleSubmit}>
+          <Button.Text>Entrar</Button.Text>
+        </Button.Wrapper>
+      </Styles.Container>
     </Screen.Wrapper>
   )
 }

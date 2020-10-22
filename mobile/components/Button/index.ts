@@ -4,12 +4,20 @@ interface Props {
   color: string;
 }
 
-const Button = styled.Button<Props>`
+const Wrapper = styled.TouchableHighlight<Props>`
   background-color: ${(props) => props.color};
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 50px;
+  border-radius: 5px;
+  width: 100%;
 `;
 
+const Text = styled.Text`
+  color: ${({ theme }) => theme.colors.text.inDark};
+  font-size: 18px;
+  text-align: center;
+  padding: 10px;
+`;
 
-export default Button;
+export default {
+  Wrapper,
+  Text,
+};
