@@ -17,6 +17,11 @@ export default class EventsController {
     return this.eventsService.getAllByUser(id)
   }
 
+  public async getAllEvaluator ({ auth }: HttpContextContract) {
+    const { id } = await useLoggedUser(auth)
+    return this.eventsService.getAllToEvaluator(id)
+  }
+
   public async store ({ request, auth }: HttpContextContract) {
     const data: EventDto = await request.validate(EventValidator)
     const { id } = await useLoggedUser(auth)

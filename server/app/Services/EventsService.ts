@@ -53,6 +53,19 @@ export default class EventsService {
     return allEvents
   }
 
+  public async getAllToEvaluator (userId: number): Promise<any> {
+    let events = await Event
+      .query()
+      .preload('participants', (query) => {
+        query.pivotColumns(['role']).whereInPivot('user_id', [userId]).andWhereInPivot('role', ['evaluator'])
+      })
+      .exec()
+
+    events = events.filter((event) => event.participants.length > 0)
+
+    return events
+  }
+
   public async getAllWillHappen (): Promise<Event[]> {
     return Event.query().where('date', '>=', DateTime.utc().toSQLDate())
   }
