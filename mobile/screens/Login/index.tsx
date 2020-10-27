@@ -1,23 +1,27 @@
-import React, { useRef, useState } from 'react';
-import { Screen, Box, Divider, Button, Text } from '../../components';
+import React, { useRef, useState, useContext } from 'react';
+import { Screen, Button, Text } from '../../components';
 import Styles from './styles';
-import { Image, TextInput } from 'react-native'
+import { TextInput } from 'react-native'
 import { useTheme } from 'styled-components';
 import authService from '../../services/auth';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { showMessage } from 'react-native-flash-message'
 import { setToken } from '../../storage/token';
-import { setUser } from '../../storage/user';
+import { useNavigation } from '@react-navigation/native';
+import { EvaluationContext } from '../../context/Evaluation';
 
 
 const Login: React.FC = () => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
   const passwordInput = useRef<TextInput>(null);
 
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>('');
   const [password, setPasword] = useState<string>('');
+
+  const { setUser } = useContext(EvaluationContext);
 
   const handleSubmit = () => {
     setLoading(true)
@@ -31,14 +35,15 @@ const Login: React.FC = () => {
           message: 'Bem vindo!',
           type: 'success'
         })
+        navigation.navigate('Events')
       })
       .catch(() => {
         showMessage({
           message: 'Verifique seu e-mail e senha.',
           type: 'danger'
         })
-        setLoading(false)
       })
+      .finally(() => setLoading(false))
   };
 
   return (

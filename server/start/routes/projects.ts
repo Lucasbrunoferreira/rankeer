@@ -1,6 +1,8 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('project', 'ProjectsController.index').middleware('auth')
+Route.get('project/all', 'ProjectsController.allProjects').middleware('auth')
+
 Route.post('project', 'ProjectsController.store').middleware('auth')
 Route.put('project/:id', 'ProjectsController.update').middleware('auth')
 

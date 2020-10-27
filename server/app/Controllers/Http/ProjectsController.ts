@@ -29,6 +29,11 @@ export default class ProjectController {
     return project
   }
 
+  public async allProjects ({ request }: HttpContextContract) {
+    const eventId = request.input('eventId')
+    return await this.projectService.getAllByEvent(eventId)
+  }
+
   public async store ({ request, response, auth }: HttpContextContract) {
     const data: CreateProjectDto = await request.validate(CreateProjectValidator)
     const { id } = await useLoggedUser(auth)

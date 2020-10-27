@@ -4,9 +4,10 @@ interface Props {
   color: string;
 }
 
-const Container = styled.TouchableHighlight<Props>`
+const Container = styled.TouchableOpacity<Props>`
   width: 100%;
   padding: 30px;
+  margin-top: 20px;
 
   background: ${({ theme }) => theme.colors.background.secundary};
 

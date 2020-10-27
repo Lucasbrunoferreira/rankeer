@@ -19,13 +19,13 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="login" component={Login} options={screenOptions} />
+        <Stack.Screen name="Login" component={Login} options={screenOptions} />
 
-        <Stack.Screen name="events" component={Events} options={screenOptions} />
+        <Stack.Screen name="Events" component={Events} options={screenOptions} />
 
-        <Stack.Screen name="projects" component={Projects} options={screenOptions} />
+        <Stack.Screen name="Projects" component={Projects} options={screenOptions} />
 
-        <Stack.Screen name="evaluation" component={Evaluation} options={screenOptions} />
+        <Stack.Screen name="Evaluation" component={Evaluation} options={screenOptions} />
       </Stack.Navigator>
     </NavigationContainer>
   );

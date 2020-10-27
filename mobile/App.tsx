@@ -5,13 +5,17 @@ import React from 'react';
 
 import Theme from './theme';
 import Routes from './routes';
+
 import FlashMessage from "react-native-flash-message";
+import { EvaluationProvider } from './context/Evaluation';
 
 export default function App() {
   return (
     <Theme>
       <>
-        <Routes />
+        <EvaluationProvider>
+          <Routes />
+        </EvaluationProvider>
 
         <StatusBar style="light" animated backgroundColor="#202225" />
 

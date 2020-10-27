@@ -30,6 +30,14 @@ export default class ProjectService {
     return projects.filter((project) => find(project.members, { id: userId }))[0]
   }
 
+  public async getAllByEvent (eventId: number): Promise<Project[]> {
+    const projects = await Project.query()
+      .where('event_id', eventId)
+      .exec()
+
+    return projects
+  }
+
   public async getProjectByID (projectId: number): Promise<Project> {
     return await Project.query()
       .preload('members', (members) => members.preload('participantInfo'))

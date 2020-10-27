@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
 
-const Wrapper = styled.View`
+const Wrapper = styled.SafeAreaView`
   flex: 1;
   padding: 60px 40px;
-  background: ${({ theme }) => theme.colors.background.primary};
+  background-color: ${({ theme }) => theme.colors.background.primary};
 `;
 
 export default { Wrapper };
