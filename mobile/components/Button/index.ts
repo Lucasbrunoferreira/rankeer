@@ -8,6 +8,7 @@ const Wrapper = styled.TouchableHighlight<Props>`
   background-color: ${(props) => props.color};
   border-radius: 5px;
   width: 100%;
+  margin: 5px 0;
 `;
 
 const Text = styled.Text`
