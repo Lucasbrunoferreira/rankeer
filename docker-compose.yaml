@@ -1,0 +1,53 @@
+version: '3'
+services:
+  psql:
+    container_name: psql
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+      POSTGRES_DB: rankeer
+    volumes:
+      - /var/lib/postgres/db/data:/var/lib/postgresql/data
+    tty: true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+  server:
+    build:
+      context: './server'
+      dockerfile: ./Dockerfile
+    restart: always
+    container_name: server
+    network_mode: "host"
+    ports:
+      - "3333:3333"
+    volumes:
+      - ../:/usr/app/server
+    environment:
+      PORT: "3333"
+      NODE_ENV: "production"
+      APP_KEY: "qWG8LyXnTFXBfQuBLuKjnVItYqfeAFMj"
+      DB_CONNECTION: "pg"
+      DB_HOST: "127.0.0.1"
+      DB_USER: "root"
+      DB_PASSWORD: "root"
+      DB_NAME: "rankeer"
+      DB_PORT: "5432"
+  web:
+    build:
+      context: './web'
+      dockerfile: ./Dockerfile
+    restart: always
+    container_name: web
+    network_mode: "host"
+    ports:
+      - "80:3000"
+    volumes:
+      - ../:/usr/app/web
+    environment:
+      REACT_APP_API_URL: "http://127.0.0.1:3333"
+  

@@ -1,5 +1,9 @@
 FROM node:lts-alpine
 
+RUN npm install
+
+RUN npm build
+
 RUN mkdir -p /home/node/app/node_modules
 
 WORKDIR /home/node/app
