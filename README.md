@@ -1,7 +1,3 @@
-<p align="center">
-   <img src="https://rankeer.s3.amazonaws.com/assets/logo.svg" width="320" alt="rankeer logo"></img>
-</p>
-
 # Rankeer
 
 [![](https://img.shields.io/badge/author-Lucas%20Bruno-blue)](https://github.com/Lucasbrunoferreira)
@@ -30,10 +26,6 @@
 [<img src="./.github/readme/react.png?raw=true" width="110"/>](https://reactjs.org)
 [<img src="./.github/readme/postgre.png?raw=true" width="110"/>](https://www.postgresql.org)
 
-
-## Basic Mind Flow
-
-<img src="https://rankeer.s3.amazonaws.com/assets/mind-flow.png" width="720" alt="mind flow"></img>
 
 ## Screenshots
 
